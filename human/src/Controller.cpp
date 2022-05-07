@@ -28,7 +28,7 @@ void Controller::mouseHandler(void)
         this->mouse.button[b] = (glfwGetMouseButton(this->window, b) == GLFW_PRESS);
 }
 
-// TODO: keyboard handling made easier (move all key handling to camera class)
+// TODO: keyboard must handle moving the cyborg
 void Controller::keyHandler(void)
 {
     if (glfwGetKey(this->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)

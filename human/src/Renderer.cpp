@@ -28,7 +28,7 @@ void Renderer::loop(void)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // use custom shader
-        // TODO: implement proper shaders in shader folder
+        // TODO: implement proper shaders in shader folder? investigation
         this->shader.use();
 
         // update controller
@@ -44,7 +44,7 @@ void Renderer::loop(void)
         this->camera.handleKeys(this->env->getController()->getKeys(),
                                 this->env->getCharacter()->getParentBone()->getModel()->getPosition());
 
-        // TODO: implement camera mouse movement instead of keyboard
+        // TODO: implement camera mouse movement instead of keyboard (maybe? investigate)
         //this->camera.handleMouse();
 
         // TODO: what does this do?
