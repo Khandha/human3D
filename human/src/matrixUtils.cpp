@@ -1,8 +1,10 @@
 #include "Matrix.hpp"
 
 #ifndef M_PI
-#define M_PI 3.14159265358979323846
+    #define M_PI 3.14159265358979323846
 #endif
+
+// TODO: Is this class necessary? Can we use OpenGL directly? Some of these are duplicates of the glm library so would make sense to implement this instead.
 
 float mtls::radians(const float deg)
 {
@@ -59,9 +61,9 @@ mat4& mtls::translate(mat4& m, const vec3& t)
 */
 mat4 mtls::lookAt(const vec3& from, const vec3& to, const vec3& tmp)
 {
-    vec3 forward = normalize(from - to);
-    vec3 right = normalize(cross(tmp, forward));
-    vec3 up = cross(forward, right);
+    const vec3 forward = normalize(from - to);
+    const vec3 right = normalize(cross(tmp, forward));
+    const vec3 up = cross(forward, right);
     return mat4({
         right[0], up[0], forward[0], 0,
         right[1], up[1], forward[1], 0,

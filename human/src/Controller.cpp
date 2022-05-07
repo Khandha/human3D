@@ -2,12 +2,13 @@
 
 Controller::Controller(GLFWwindow* window) : window(window)
 {
+    // TODO: Change this message according to WIP status
     this->ref = std::chrono::steady_clock::now();
-    std::cout << "[w][s] : move forward/backward\n[a][d] : move left/right\n\
-[space][shift] : move up/down\n\n[i][k] : scale z axis\n[j][l] : scale x axis\n\
+    std::cout << "[w][s] : move camera forward/backward\n[a][d] : move camera left/right\n\
+[space][shift] : move camera up/down\n\n[i][k] : scale z axis\n[j][l] : scale x axis\n\
 [y][h] : scale y axis\n[-][=] : scale all axes\n\n[m] : switch bones model\n\
-[c] : switch free/orbit camera mode\n[1][2][3][4][5][6] : select animation\n\
-[esc] : quit\n(left click) : select bone\n";
+[c] : switch free/orbit camera mode\n[1][2] : select animation\n\
+[esc] : quit\n";
 }
 
 Controller::~Controller(void)
@@ -21,11 +22,13 @@ void Controller::update(void)
 
 void Controller::mouseHandler(void)
 {
+    // handles mouse position and clicks
     glfwGetCursorPos(this->window, &(this->mouse.pos(0)), &(this->mouse.pos(1)));
     for (size_t b = 0; b < N_MOUSE_BUTTON; ++b)
         this->mouse.button[b] = (glfwGetMouseButton(this->window, b) == GLFW_PRESS);
 }
 
+// TODO: keyboard handling made easier (move all key handling to camera class)
 void Controller::keyHandler(void)
 {
     if (glfwGetKey(this->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)

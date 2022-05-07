@@ -27,10 +27,10 @@ public:
     Env(void);
     ~Env(void);
 
-    const t_window& getWindow(void) const { return (window); };
-    Skeleton* getCharacter(void) { return (character); };
-    Animator* getAnimator(void) { return (animator); };
-    Controller* getController(void) { return (controller); };
+    const t_window& getWindow(void) const { return (window); }
+    Skeleton* getCharacter(void) const { return (character); }
+    Animator* getAnimator(void) const { return (animator); }
+    Controller* getController(void) const { return (controller); }
 
 private:
     t_window window;
@@ -38,12 +38,12 @@ private:
     Animator* animator;
     Skeleton* character;
 
-    void initGlfwEnvironment(const std::string& glVersion = "4.0");
+    void initGlfwEnvironment(const std::string& glVersion = "4.0") const;
     void initGlfwWindow(size_t width, size_t height);
-    void setupController(void);
+    void setupController(void) const;
     // callback to be called each time the window is resized to update the viewport size as well
     static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
-    std::unordered_map<std::string, Bone*> createCharacterSkeleton(void);
-    tAnimationFrames* createWalkingAnimation(void);
+    static std::unordered_map<std::string, Bone*> createCharacterSkeleton(void);
+    static tAnimationFrames* createWalkingAnimation(void);
 };

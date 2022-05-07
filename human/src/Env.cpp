@@ -8,15 +8,17 @@ Env::Env(void) : character()
 {
     try
     {
+        // Basic initialization of environment
+        
         this->initGlfwEnvironment("4.0");
         this->initGlfwWindow(1280, 960);
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
             throw Exception::InitError("glad initialization failed");
         this->controller = new Controller(this->window.ptr);
         this->character = new Skeleton(this->createCharacterSkeleton(), "torso");
         this->animator = new Animator(this->character, {
-                                          {new tAnimationFrames({{}}), 100, false},
-                                          {this->createWalkingAnimation(), 750, false},
+                                          {new tAnimationFrames({{}}), 100},
+                                          {this->createWalkingAnimation(), 750},
                                       });
         this->setupController();
     }
@@ -35,13 +37,11 @@ Env::~Env(void)
     glfwTerminate();
 }
 
-void Env::initGlfwEnvironment(const std::string& glVersion)
+void Env::initGlfwEnvironment(const std::string& glVersion) const
 {
     if (!glfwInit())
         throw Exception::InitError("glfw initialization failed");
-    if (!std::regex_match(glVersion, static_cast<std::regex>("^[0-9]{1}.[0-9]{1}$")))
-        throw Exception::InitError("invalid openGL version specified");
-    size_t p = glVersion.find('.');
+    const size_t p = glVersion.find('.');
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, std::stoi(glVersion.substr(0, p)));
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, std::stoi(glVersion.substr(p + 1)));
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -61,7 +61,7 @@ void Env::initGlfwWindow(size_t width, size_t height)
     this->window.height = height;
 }
 
-void Env::setupController(void)
+void Env::setupController(void) const
 {
     this->controller->setKeyProperties(GLFW_KEY_C, eKeyMode::toggle, 0, 1000);
     this->controller->setKeyProperties(GLFW_KEY_M, eKeyMode::cycle, 1, 300, 3);
@@ -74,7 +74,7 @@ void Env::framebufferSizeCallback(GLFWwindow* window, int width, int height)
 
 tAnimationFrames* Env::createWalkingAnimation(void)
 {
-    auto walkingAnimation = new tAnimationFrames({
+    const auto walkingAnimation = new tAnimationFrames({
         {
             // contact
             new std::vector<tBoneTransform>({
@@ -140,7 +140,7 @@ tAnimationFrames* Env::createWalkingAnimation(void)
                     {"lowerLegRight", vec3({0, 0, 0}), vec3({-1.2f, 0, 0}), vec3({0, 0, 0})},
                 }
             }),
-            // contact, DO IT AGAIN
+            // contact again
             new std::vector<tBoneTransform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({0.7f, -0.9f, 0.1f}), vec3({0, 0, 0})},
@@ -209,6 +209,8 @@ tAnimationFrames* Env::createWalkingAnimation(void)
     });
     return (walkingAnimation);
 }
+
+// TODO: Change colors and shapes maybe? Hook up textures here? Abstract this?
 
 std::unordered_map<std::string, Bone*> Env::createCharacterSkeleton(void)
 {
@@ -395,7 +397,6 @@ std::unordered_map<std::string, Bone*> Env::createCharacterSkeleton(void)
     );
     bones["torso"] = new Bone(
         std::forward_list<Bone*>{{bones["neck"], bones["stomach"], bones["shoulderLeft"], bones["shoulderRight"]}},
-        //, bones["shoulderLeft"], bones["shoulderRight"], bones["hipLeft"], bones["hipRight"] }},
         "torso",
         vec3({0, 0.25f, 0}),
         vec3({0, 0, 0}),

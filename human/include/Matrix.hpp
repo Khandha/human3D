@@ -204,9 +204,9 @@ public:
     }
 
     /* getters */
-    const T* getRawData(void) const { return (data.data()); };
-    const std::array<T, W * H>& getData(void) const { return (data); };
-    std::array<T, W * H> getDataCpy(void) const { return (data); };
+    const T* getRawData(void) const { return (data.data()); }
+    const std::array<T, W * H>& getData(void) const { return (data); }
+    std::array<T, W * H> getDataCpy(void) const { return (data); }
 
     friend std::ostream& operator<<(std::ostream& stream, const Mat2d& mat)
     {

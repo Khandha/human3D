@@ -23,9 +23,9 @@ public:
     void update(const mat4& transform, Shader* shader);
     void rescale(const vec3& v, bool child = false);
 
-    const std::string& getName(void) const { return (name); };
-    Model* getModel(void) const { return (model); };
-    const std::forward_list<Bone*>& getChildren(void) const { return (children); };
+    const std::string& getName(void) const { return (name); }
+    Model* getModel(void) const { return (model); }
+    const std::forward_list<Bone*>& getChildren(void) const { return (children); }
 
 private:
     std::string name;

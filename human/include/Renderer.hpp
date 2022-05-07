@@ -22,7 +22,6 @@ public:
     ~Renderer(void);
 
     void loop(void);
-    void raycastObjectSelect(void);
 
 private:
     Env* env;

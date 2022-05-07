@@ -18,10 +18,10 @@ public:
     Shader(const std::string& vertexShader, const std::string& fragmentShader);
     ~Shader(void);
 
-    std::string getFromFile(const std::string& filename);
+    static std::string getFromFile(const std::string& filename);
     GLuint create(const char* shaderSource, GLenum shaderType);
     GLuint createProgram(const std::forward_list<GLuint>& shaders);
-    void isCompilationSuccess(GLint handle, GLint success, int shaderType);
+    static void isCompilationSuccess(GLint handle, GLint success, int shaderType);
 
     void use(void) const;
 

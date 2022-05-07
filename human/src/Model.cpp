@@ -1,5 +1,6 @@
 #include "Model.hpp"
 
+// TODO: review this file
 Model::Model(const vec3& position, const vec3& orientation, const vec3& scale, const vec3& joint, const int64_t color) :
     position(position), orientation(orientation), scale(scale), joint(joint), color(hex2vec(color))
 {
@@ -43,7 +44,7 @@ void Model::update(const mat4& parentTransform, Shader* shader)
 
 void Model::render(Shader* shader)
 {
-    vec4 color = (!this->selected ? this->color : hex2vec(0xEF4F42));
+    const vec4 color = (!this->selected ? this->color : hex2vec(0xEF4F42));
     shader->setVec4UniformValue("customColor", color);
     shader->setMat4UniformValue("model", this->stack.top());
     glBindVertexArray(this->vao);
@@ -53,14 +54,6 @@ void Model::render(Shader* shader)
 void Model::updateWorldPosition(const mat4& parentTransform)
 {
     this->worldPosition = this->stack.top().transpose() * vec4({0, 0, 0, 1});
-}
-
-void Model::switchModel(short key)
-{
-    glDeleteVertexArrays(1, &this->vao);
-    glDeleteBuffers(1, &this->vbo);
-    glDeleteBuffers(1, &this->ebo);
-    this->initBufferObjects(GL_STATIC_DRAW, static_cast<eModelType>(key));
 }
 
 void Model::initBufferObjects(int mode, eModelType modelType)
@@ -79,19 +72,24 @@ void Model::initBufferObjects(int mode, eModelType modelType)
     default: break;
     }
     this->nIndices = indices.size();
+    
     // gen buffers and vertex arrays
     glGenVertexArrays(1, &this->vao);
     glGenBuffers(1, &this->vbo);
     glGenBuffers(1, &this->ebo);
+    
     // bind vertex array object, basically this is an object to allow us to not redo all of this process each time
     // we want to draw an object to screen, all the states we set are stored in the VAO
     glBindVertexArray(this->vao);
+    
     // copy our vertices array in a buffer for OpenGL to use
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertices.size(), vertices.data(), mode);
+    
     // copy our indices array in a buffer for OpenGL to use
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * indices.size(), indices.data(), mode);
+    
     // set the vertex attribute pointers
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), static_cast<GLvoid*>(nullptr));
     glEnableVertexAttribArray(0);

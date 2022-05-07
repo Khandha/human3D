@@ -31,8 +31,8 @@ Camera::~Camera(void)
 void Camera::setFov(float fov)
 {
     this->fov = fov;
-    float yScale = 1.0 / std::tan(mtls::radians(this->fov / 2.0));
-    float xScale = yScale / this->aspect;
+    const float yScale = 1.0 / std::tan(mtls::radians(this->fov / 2.0));
+    const float xScale = yScale / this->aspect;
     this->projectionMatrix(0) = xScale;
     this->projectionMatrix(6) = yScale;
 }
@@ -40,17 +40,17 @@ void Camera::setFov(float fov)
 void Camera::setAspect(float aspect)
 {
     this->aspect = aspect;
-    float yScale = 1.0 / std::tan(mtls::radians(this->fov / 2.0));
-    float xScale = yScale / this->aspect;
+    const float yScale = 1.0 / std::tan(mtls::radians(this->fov / 2.0));
+    const float xScale = yScale / this->aspect;
     this->projectionMatrix(0) = xScale;
     this->projectionMatrix(6) = yScale;
 }
 
 mat4 Camera::createPerspectiveProjectionMatrix(float fov, float aspect, float near, float far)
 {
-    float yScale = 1 / std::tan(mtls::radians(fov * 0.5));
-    float xScale = yScale / aspect;
-    float nearfar = near - far;
+    const float yScale = 1 / std::tan(mtls::radians(fov * 0.5));
+    const float xScale = yScale / aspect;
+    const float nearfar = near - far;
     mat4 projectionMatrix({
         xScale, 0, 0, 0,
         0, yScale, 0, 0,
@@ -60,6 +60,7 @@ mat4 Camera::createPerspectiveProjectionMatrix(float fov, float aspect, float ne
     return (projectionMatrix);
 }
 
+// TODO: leaving this in for reference REMOVE AFTER MOUSE HANDLER CREATION
 void Camera::handleKeys(const std::array<tKey, N_KEY>& keys, const vec3& lockPos)
 {
     vec4 translate({
@@ -68,7 +69,7 @@ void Camera::handleKeys(const std::array<tKey, N_KEY>& keys, const vec3& lockPos
         static_cast<float>(keys[GLFW_KEY_W].value - keys[GLFW_KEY_S].value),
         1.0f
     });
-    /* translation is in the same coordinate system as view (moves in same direction) */
+    // translation is in the same coordinate system as view (moves in same direction) 
     translate = this->viewMatrix * mtls::normalize(translate);
     /* change the target if we are in orbit or free mode */
     if (keys[GLFW_KEY_C].value)

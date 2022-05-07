@@ -2,8 +2,8 @@
 
 Shader::Shader(const std::string& vertexShader, const std::string& fragmentShader)
 {
-    std::string vSrc = getFromFile(vertexShader);
-    std::string fSrc = getFromFile(fragmentShader);
+    const std::string vSrc = getFromFile(vertexShader);
+    const std::string fSrc = getFromFile(fragmentShader);
 
     GLuint vertShader = this->create(vSrc.c_str(), GL_VERTEX_SHADER);
     GLuint fragShader = this->create(fSrc.c_str(), GL_FRAGMENT_SHADER);
@@ -35,7 +35,7 @@ std::string Shader::getFromFile(const std::string& filename)
 GLuint Shader::create(const char* shaderSource, GLenum shaderType)
 {
     GLint success;
-    GLuint shader = glCreateShader(shaderType);
+    const GLuint shader = glCreateShader(shaderType);
     glShaderSource(shader, 1, &shaderSource, nullptr);
     glCompileShader(shader);
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
@@ -50,7 +50,7 @@ GLuint Shader::create(const char* shaderSource, GLenum shaderType)
 GLuint Shader::createProgram(const std::forward_list<GLuint>& shaders)
 {
     GLint success;
-    GLuint shaderProgram = glCreateProgram();
+    const GLuint shaderProgram = glCreateProgram();
     for (auto it = shaders.begin(); it != shaders.end(); ++it)
         glAttachShader(shaderProgram, *it);
     glLinkProgram(shaderProgram);
@@ -84,7 +84,7 @@ unsigned int Shader::getUniformLocation(const std::string& name)
 {
     if (this->uniformLocations.find(name) != this->uniformLocations.end())
         return (this->uniformLocations[name]);
-    unsigned int newLoc = glGetUniformLocation(this->id, name.c_str());
+    const unsigned int newLoc = glGetUniformLocation(this->id, name.c_str());
     this->uniformLocations[name] = newLoc;
     return (newLoc);
 }

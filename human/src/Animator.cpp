@@ -1,23 +1,22 @@
 #include "Animator.hpp"
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
+
 Animator::Animator(Skeleton* skeleton, std::vector<tAnimation> animations) : skeleton(skeleton), animations(animations)
 {
-    if (animations.size() == 0)
+    if (animations.empty())
         throw Exception::RuntimeError("Animator should contain at least one tAnimation");
     this->pTimepoint = std::chrono::steady_clock::now();
     this->cAnim = 0;
     this->cFrame = 0;
-    this->cFrameDuration = this->animations[0].cycleDuration / static_cast<float>(this->animations[0].frames->size());
+    this->cFrameDuration = this->animations[0].cycleDuration / this->animations[0].frames->size();
     this->selectAnim(0);
 }
 
+// destructor
 Animator::~Animator(void)
 {
-    for (auto& animation : this->animations)
+    for (const auto& animation : this->animations)
     {
-        for (auto& frame : *animation.frames)
+        for (const auto& frame : *animation.frames)
             delete frame;
         delete animation.frames;
     }
@@ -25,11 +24,15 @@ Animator::~Animator(void)
 
 void Animator::selectAnim(size_t id)
 {
-    if (id >= this->animations.size())
+    // if id is out of range
+    if (id >= this->animations.size()) 
         id = this->animations.size() - 1;
-    if (this->cAnim != id)
+
+    // if id is different from current animation
+    if (this->cAnim != id) 
     {
-        /* reset all the bones' externalTransform to identity matrix */
+        // reset all the parts to external transform (identity matrix)
+        // if the animation is in play, stop it
         if (this->animations[cAnim].frames->size() > 1)
         {
             for (auto curr : *(*this->animations[cAnim].frames)[this->cFrame])
@@ -38,47 +41,50 @@ void Animator::selectAnim(size_t id)
             }
             this->skeleton->update();
         }
-        /* update the current variables */
+        // update the object with selected animation 
         this->cAnim = id;
         this->cFrame = 0;
-        this->cFrameDuration = this->animations[id].cycleDuration / static_cast<float>(this->animations[id].frames->
-            size());
+        this->cFrameDuration = this->animations[id].cycleDuration / this->animations[id].frames->size();
     }
 }
 
 void Animator::update(void)
 {
+    // if the animation frame exceeds the allowed duration
     if (this->getElapsedMilliseconds().count() > this->cFrameDuration)
     {
+        // get next frame
         this->pTimepoint = std::chrono::steady_clock::now();
         this->cFrame = this->getNextFrame();
     }
+
+    // if the animation is not static
     if (this->animations[cAnim].frames->size() > 1)
     {
-        float t = this->getFrameInterpolation(eInterpolationType::linear);
+        // get motion interpolation for given frame
+        const float t = this->getFrameInterpolation();
         mat4 transform;
+
+        // for each bone in the animation
         for (size_t i = 0; i < (*this->animations[cAnim].frames)[this->cFrame]->size(); ++i)
         {
+            // get current frame for given bone
             tBoneTransform curr = (*(*this->animations[cAnim].frames)[this->cFrame])[i];
-            tBoneTransform next = (*(*this->animations[cAnim].frames)[this->getNextFrame()])[i];
-            /* check if the bone in the animation exists on the skeleton */
-            if (this->skeleton->getBones().find(curr.boneId) == this->skeleton->getBones().end() ||
-                this->skeleton->getBones().find(next.boneId) == this->skeleton->getBones().end())
-                continue;
+
+            //get next frame for given bone
+            const tBoneTransform next = (*(*this->animations[cAnim].frames)[this->getNextFrame()])[i];
+
+            // rescale bone to the next frame 
             (*this->skeleton)[curr.boneId]->rescale(
                 (*this->skeleton)[curr.boneId]->getModel()->scaleExternal + mtls::lerp(curr.scale, next.scale, t));
             transform.identity();
-            if (this->animations[cAnim].interpolateLoopFrame and this->getNextFrame() == 0)
-            {
-                mtls::translate(transform, next.translation);
-                mtls::rotate(transform, next.rotation, (*this->skeleton)[curr.boneId]->getModel()->getJoint());
-            }
-            else
-            {
-                mtls::translate(transform, mtls::lerp(curr.translation, next.translation, t));
-                mtls::rotate(transform, mtls::lerp(curr.rotation, next.rotation, t),
-                             (*this->skeleton)[curr.boneId]->getModel()->getJoint());
-            }
+
+            // translate and rotate bones to the next frame
+            mtls::translate(transform, mtls::lerp(curr.translation, next.translation, t));
+            mtls::rotate(transform, mtls::lerp(curr.rotation, next.rotation, t),
+                         (*this->skeleton)[curr.boneId]->getModel()->getJoint());
+
+            // transform the bone to the next frame
             (*this->skeleton)[curr.boneId]->getModel()->setExternalTransform(transform);
         }
     }
@@ -88,31 +94,23 @@ void Animator::update(void)
 void Animator::handleKeys(const std::array<tKey, N_KEY>& keys)
 {
     if (keys[GLFW_KEY_1].value)
-        this->selectAnim(0);
+        this->selectAnim(0); // idle (no animation)
     else if (keys[GLFW_KEY_2].value)
-        this->selectAnim(1);
+        this->selectAnim(1); // walking
 }
 
-tMilliseconds Animator::getElapsedMilliseconds(void)
+tMilliseconds Animator::getElapsedMilliseconds(void) const
 {
     return (std::chrono::steady_clock::now() - this->pTimepoint);
 }
 
-size_t Animator::getNextFrame(void)
+size_t Animator::getNextFrame(void) const
 {
     return (this->cFrame + 1 >= this->animations[cAnim].frames->size() ? 0 : this->cFrame + 1);
 }
 
-float Animator::getFrameInterpolation(eInterpolationType interpolation)
+float Animator::getFrameInterpolation(void) const
 {
-    float t = (1 - (this->cFrameDuration - this->getElapsedMilliseconds().count()) / this->cFrameDuration);
-    switch (interpolation)
-    {
-    case eInterpolationType::sinerp: return (std::sin(t * M_PI * 0.5f));
-    case eInterpolationType::coserp: return (std::cos(t * M_PI * 0.5f));
-    case eInterpolationType::smoothstep: return (t * t * (3.0f - 2.0f * t));
-    case eInterpolationType::smootherstep: return (t * t * t * (t * (t * 6.0f - 15.0f) + 10.0f));
-    default: break;
-    }
-    return (t);
+    // return interpolation factor between two frames
+    return (1 - (this->cFrameDuration - this->getElapsedMilliseconds().count()) / this->cFrameDuration);
 }

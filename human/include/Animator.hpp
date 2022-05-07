@@ -11,14 +11,6 @@
 #include "Bone.hpp"
 #include "Controller.hpp"
 
-enum class eInterpolationType
-{
-    linear,
-    sinerp,
-    coserp,
-    smoothstep,
-    smootherstep
-};
 
 using tBoneTransform = struct sBoneTransform
 {
@@ -35,7 +27,6 @@ using tAnimation = struct sAnimation
 {
     tAnimationFrames* frames;
     size_t cycleDuration;
-    bool interpolateLoopFrame;
 };
 
 class Animator
@@ -47,14 +38,14 @@ public:
     void selectAnim(size_t id);
     void update(void);
     void handleKeys(const std::array<tKey, N_KEY>& keys);
-    size_t getNextFrame(void);
-    float getFrameInterpolation(eInterpolationType interpolation = eInterpolationType::linear);
-    tMilliseconds getElapsedMilliseconds(void);
+    size_t getNextFrame(void) const;
+    float getFrameInterpolation(void) const;
+    tMilliseconds getElapsedMilliseconds(void) const;
 
-    Skeleton* getSkeleton(void) const { return (skeleton); };
-    size_t getCAnim(void) const { return (cAnim); };
-    size_t getCFrame(void) const { return (cFrame); };
-    size_t getCFrameDuration(void) const { return (cFrameDuration); };
+    Skeleton* getSkeleton(void) const { return (skeleton); }
+    size_t getCAnim(void) const { return (cAnim); }
+    size_t getCFrame(void) const { return (cFrame); }
+    size_t getCFrameDuration(void) const { return (cFrameDuration); }
 
 private:
     Skeleton* skeleton;

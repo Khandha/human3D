@@ -27,32 +27,31 @@ public:
 
     void update(const mat4& parentTransform, Shader* shader);
     void render(Shader* shader);
-    void switchModel(short key);
 
     mat4 popMatrix(void);
-    void pushMatrix(void) { stack.push(stack.top()); };
-    void pushMatrix(const mat4& mat) { stack.push(mat); };
+    void pushMatrix(void) { stack.push(stack.top()); }
+    void pushMatrix(const mat4& mat) { stack.push(mat); }
 
     /* getters */
-    const GLuint& getVao(void) const { return (vao); };
-    const mat4& getTransform(void) const { return (stack.top()); };
-    const mat4& getExternalTransform(void) const { return (externalTransform); };
-    const vec3& getPosition(void) const { return (position); };
-    const vec3& getOrientation(void) const { return (orientation); };
-    const vec3& getScale(void) const { return (scale); };
-    const vec3& getJoint(void) const { return (joint); };
-    const vec3& getScaling(void) const { return (scaling); };
-    const vec3& getWorldPosition(void) const { return (worldPosition); };
+    const GLuint& getVao(void) const { return (vao); }
+    const mat4& getTransform(void) const { return (stack.top()); }
+    const mat4& getExternalTransform(void) const { return (externalTransform); }
+    const vec3& getPosition(void) const { return (position); }
+    const vec3& getOrientation(void) const { return (orientation); }
+    const vec3& getScale(void) const { return (scale); }
+    const vec3& getJoint(void) const { return (joint); }
+    const vec3& getScaling(void) const { return (scaling); }
+    const vec3& getWorldPosition(void) const { return (worldPosition); }
     /* setters */
-    void setExternalTransform(const mat4& transform) { externalTransform = transform; };
-    void setPosition(const vec3& t) { position = t; };
-    void setOrientation(const vec3& r) { orientation = r; };
-    void setScale(const vec3& s) { scale = s; };
-    void setJoint(const vec3& j) { joint = j; };
-    void setScaling(const vec3& s) { scaling = s; };
+    void setExternalTransform(const mat4& transform) { externalTransform = transform; }
+    void setPosition(const vec3& t) { position = t; }
+    void setOrientation(const vec3& r) { orientation = r; }
+    void setScale(const vec3& s) { scale = s; }
+    void setJoint(const vec3& j) { joint = j; }
+    void setScaling(const vec3& s) { scaling = s; }
 
-    const bool getSelected(void) const { return (selected); };
-    void setSelected(bool b) { selected = b; };
+    bool getSelected(void) const { return (selected); }
+    void setSelected(bool b) { selected = b; }
 
     vec3 scaleExternal; // meh
 

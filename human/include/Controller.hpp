@@ -57,11 +57,11 @@ public:
     void update(void);
     void setKeyProperties(int k, eKeyMode type, short sval, GLuint cooldown = 250, GLuint cycles = 1);
     /* getters */
-    short getKeyValue(int k) const { return (key[k].value); };
-    short getMouseButtonValue(int b) const { return (mouse.button[b]); };
-    const vec2d& getMousePosition(void) const { return (mouse.pos); };
+    short getKeyValue(int k) const { return (key[k].value); }
+    short getMouseButtonValue(int b) const { return (mouse.button[b]); }
+    const vec2d& getMousePosition(void) const { return (mouse.pos); }
 
-    const std::array<tKey, N_KEY>& getKeys(void) const { return (key); };
+    const std::array<tKey, N_KEY>& getKeys(void) const { return (key); }
 
 private:
     GLFWwindow* window;
@@ -76,5 +76,5 @@ private:
     void keyCooldown(int k, short value);
     void keyInstant(int k, short value);
     void keyCycle(int k, short value);
-    tMilliseconds getElapsedMilliseconds(tTimePoint prev);
+    static tMilliseconds getElapsedMilliseconds(tTimePoint prev);
 };
