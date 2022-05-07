@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <ItemGroup Label="ProjectConfigurations">
-        <ProjectConfiguration Include="Debug|Win32">
-            <Configuration>Debug</Configuration>
-            <Platform>Win32</Platform>
-        </ProjectConfiguration>
-        <ProjectConfiguration Include="Release|Win32">
-            <Configuration>Release</Configuration>
-            <Platform>Win32</Platform>
-        </ProjectConfiguration>
         <ProjectConfiguration Include="Debug|x64">
             <Configuration>Debug</Configuration>
             <Platform>x64</Platform>
@@ -25,20 +17,8 @@
         <RootNamespace>human</RootNamespace>
         <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     </PropertyGroup>
-    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-        <ConfigurationType>Application</ConfigurationType>
-        <UseDebugLibraries>true</UseDebugLibraries>
-        <PlatformToolset>v143</PlatformToolset>
-        <CharacterSet>Unicode</CharacterSet>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-        <ConfigurationType>Application</ConfigurationType>
-        <UseDebugLibraries>false</UseDebugLibraries>
-        <PlatformToolset>v143</PlatformToolset>
-        <WholeProgramOptimization>true</WholeProgramOptimization>
-        <CharacterSet>Unicode</CharacterSet>
-    </PropertyGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
         <ConfigurationType>Application</ConfigurationType>
         <UseDebugLibraries>true</UseDebugLibraries>
@@ -52,36 +32,29 @@
         <WholeProgramOptimization>true</WholeProgramOptimization>
         <CharacterSet>Unicode</CharacterSet>
     </PropertyGroup>
-    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
     <ImportGroup Label="ExtensionSettings">
     </ImportGroup>
     <ImportGroup Label="Shared">
     </ImportGroup>
     <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     </ImportGroup>
     <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     </ImportGroup>
     <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     </ImportGroup>
     <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     </ImportGroup>
-    <PropertyGroup Label="UserMacros"/>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-        <LinkIncremental>true</LinkIncremental>
-        <IncludePath>C:\projectspy\graphics\include;$(IncludePath)</IncludePath>
-        <LibraryPath>C:\projectspy\graphics\libs;$(LibraryPath)</LibraryPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-        <LinkIncremental>false</LinkIncremental>
-    </PropertyGroup>
+    <PropertyGroup Label="UserMacros" />
+
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
         <LinkIncremental>true</LinkIncremental>
-        <IncludePath>C:\projectspy\human\human\human\include;C:\projectspy\graphics\include;$(IncludePath)</IncludePath>
-        <LibraryPath>C:\projectspy\graphics\libs;$(LibraryPath)</LibraryPath>
+        <IncludePath>$(ProjectDir)\include;$(ProjectDir)\include\external;$(IncludePath)</IncludePath>
+        <LibraryPath>$(ProjectDir)\libs\;$(LibraryPath)</LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
         <LinkIncremental>false</LinkIncremental>
@@ -147,39 +120,47 @@
         </Link>
     </ItemDefinitionGroup>
     <ItemGroup>
-        <ClCompile Include="glad.c"/>
-        <ClCompile Include="src\Animator.cpp"/>
-        <ClCompile Include="src\Bone.cpp"/>
-        <ClCompile Include="src\Camera.cpp"/>
-        <ClCompile Include="src\Controller.cpp"/>
-        <ClCompile Include="src\Env.cpp"/>
-        <ClCompile Include="src\main.cpp"/>
-        <ClCompile Include="src\matrixUtils.cpp"/>
-        <ClCompile Include="src\Model.cpp"/>
-        <ClCompile Include="src\Renderer.cpp"/>
-        <ClCompile Include="src\Shader.cpp"/>
-        <ClCompile Include="src\Skeleton.cpp"/>
-        <ClCompile Include="src\utils.cpp"/>
+        <ClCompile Include="glad.c" />
+        <ClCompile Include="src\Animator.cpp" />
+        <ClCompile Include="src\Bone.cpp" />
+        <ClCompile Include="src\Camera.cpp" />
+        <ClCompile Include="src\Controller.cpp" />
+        <ClCompile Include="src\Env.cpp" />
+        <ClCompile Include="src\main.cpp" />
+        <ClCompile Include="src\matrixUtils.cpp" />
+        <ClCompile Include="src\Model.cpp" />
+        <ClCompile Include="src\Renderer.cpp" />
+        <ClCompile Include="src\Shader.cpp" />
+        <ClCompile Include="src\Skeleton.cpp" />
+        <ClCompile Include="src\utils.cpp" />
     </ItemGroup>
     <ItemGroup>
-        <ClInclude Include="include\Animator.hpp"/>
-        <ClInclude Include="include\Bone.hpp"/>
-        <ClInclude Include="include\Camera.hpp"/>
-        <ClInclude Include="include\Controller.hpp"/>
-        <ClInclude Include="include\Env.hpp"/>
-        <ClInclude Include="include\Exception.hpp"/>
-        <ClInclude Include="include\Matrix.hpp"/>
-        <ClInclude Include="include\Model.hpp"/>
-        <ClInclude Include="include\Renderer.hpp"/>
-        <ClInclude Include="include\Shader.hpp"/>
-        <ClInclude Include="include\Skeleton.hpp"/>
-        <ClInclude Include="include\utils.hpp"/>
+        <ClInclude Include="include\Animator.hpp" />
+        <ClInclude Include="include\Bone.hpp" />
+        <ClInclude Include="include\Camera.hpp" />
+        <ClInclude Include="include\Controller.hpp" />
+        <ClInclude Include="include\Env.hpp" />
+        <ClInclude Include="include\Exception.hpp" />
+        <ClInclude Include="include\external\glad\glad.h" />
+        <ClInclude Include="include\external\glfw3.h" />
+        <ClInclude Include="include\external\glfw3native.h" />
+        <ClInclude Include="include\external\KHR\khrplatform.h" />
+        <ClInclude Include="include\Matrix.hpp" />
+        <ClInclude Include="include\Model.hpp" />
+        <ClInclude Include="include\Renderer.hpp" />
+        <ClInclude Include="include\Shader.hpp" />
+        <ClInclude Include="include\Skeleton.hpp" />
+        <ClInclude Include="include\utils.hpp" />
     </ItemGroup>
     <ItemGroup>
-        <None Include="shader\fragment.glsl"/>
-        <None Include="shader\vertex.glsl"/>
+        <None Include="shader\fragment.glsl" />
+        <None Include="shader\vertex.glsl" />
     </ItemGroup>
-    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
+    <ItemGroup>
+      <Content Include="libs\glfw3.lib" />
+      <Content Include="libs\glfw3.pdb" />
+    </ItemGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
     <ImportGroup Label="ExtensionTargets">
     </ImportGroup>
 </Project>
