@@ -12,30 +12,29 @@
 #include "Shader.hpp"
 #include "Controller.hpp"
 
-class Skeleton {
-
+class Skeleton
+{
 public:
-    Skeleton( std::unordered_map<std::string, Bone*> bones, const std::string& parentBoneId );
-    ~Skeleton( void );
+    Skeleton(std::unordered_map<std::string, Bone*> bones, std::string parentBoneId);
+    ~Skeleton(void);
 
-    void        update( void );
-    void        scaleSelection( const std::array<tKey, N_KEY>& keys, const std::string& boneId );
-    void        switchBonesModel( short key );
+    void update(void);
+    void scaleSelection(const std::array<tKey, N_KEY>& keys, const std::string& boneId);
+    void switchBonesModel(short key);
 
     /* setters */
-    void                                            setShader( Shader* s ) { shader = s; };
+    void setShader(Shader* s) { shader = s; };
     /* getters */
-    const Bone*                                     getParentBone( void ) const { return (parentBone); };
-    const std::string&                              getParentBoneId( void ) const { return (parentBoneId); };
-    const std::unordered_map<std::string, Bone*>&   getBones( void ) const { return (bones); };
-    Shader*                                         getShader( void ) const { return (shader); };
+    const Bone* getParentBone(void) const { return (parentBone); };
+    const std::string& getParentBoneId(void) const { return (parentBoneId); };
+    const std::unordered_map<std::string, Bone*>& getBones(void) const { return (bones); };
+    Shader* getShader(void) const { return (shader); };
 
-    Bone*                                           operator[]( const std::string& id );
+    Bone* operator[](const std::string& id);
 
 private:
-    Bone*                                   parentBone;
-    std::string                             parentBoneId;
-    std::unordered_map<std::string, Bone*>  bones;
-    Shader*                                 shader;
-
+    Bone* parentBone;
+    std::string parentBoneId;
+    std::unordered_map<std::string, Bone*> bones;
+    Shader* shader;
 };

@@ -15,20 +15,19 @@
 #include "Matrix.hpp"
 #include "Camera.hpp"
 
-class Renderer {
-
+class Renderer
+{
 public:
-    Renderer( Env* env );
-    ~Renderer( void );
+    Renderer(Env* env);
+    ~Renderer(void);
 
-    void	loop( void );
-    void    raycastObjectSelect( void );
+    void loop(void);
+    void raycastObjectSelect(void);
 
 private:
-    Env*        env;
-    Shader      shader;
-    Camera      camera;
+    Env* env;
+    Shader shader;
+    Camera camera;
 
-    void    updateShaderUniforms( void );
-
+    void updateShaderUniforms(void);
 };
