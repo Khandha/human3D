@@ -1,5 +1,7 @@
 #include "Renderer.hpp"
 
+// tutek branch
+
 Renderer::Renderer(Env* env) :
     //environment initialization
     env(env),
@@ -26,17 +28,29 @@ void Renderer::loop(void)
         // clear buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        // use custom shader
+        // use custom shaders
         this->shader.use();
         
         // update controller
-        this->env->getController()->update(); 
-        this->env->getAnimator()->handleKeys(this->env->getController()->getKeys()); // handle keys
-        this->env->getAnimator()->update(); // update animator
+        this->env->getController()->update();
+        
+        // handle animator keys
+        this->env->getAnimator()->handleKeys(this->env->getController()->getKeys());
+
+        // update animator
+        this->env->getAnimator()->update();
+
+        // handle camera keys //TODO: is needed?
         this->camera.handleKeys(this->env->getController()->getKeys(), 
                                 this->env->getCharacter()->getParentBone()->getModel()->getPosition());
+
+        // handle raycast object selection
         this->raycastObjectSelect();
+
+        // update shader uniforms
         this->updateShaderUniforms();
+
+        // 
         this->env->getCharacter()->switchBonesModel(this->env->getController()->getKeyValue(GLFW_KEY_M));
         glfwSwapBuffers(this->env->getWindow().ptr);
     }
