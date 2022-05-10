@@ -7,3 +7,4 @@
 * matrixUtils - czy jest potrzebny z biblioteką glm?
 * teksturowanie środowiska (podłogi)? 
 * dalsze czyszczenie projektu z niepotrzebnych rzeczy, upraszczenie kodu
+* Shadery
