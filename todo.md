@@ -4,9 +4,9 @@
 * Ustalenie jak rozwiązać kamerę i gdzie ją ustawić 
 * Tekstura cyborga - jakieś bitmapy?
 ### Techniczne
-* matrixUtils - czy jest potrzebny z biblioteką glm?
+x matrixUtils - czy jest potrzebny z biblioteką glm? - przeniesione
 * teksturowanie środowiska (podłogi)? 
-* dalsze czyszczenie projektu z niepotrzebnych rzeczy, upraszczenie kodu
+* dalsze czyszczenie projektu z niepotrzebnych rzeczy, upraszczenie kodu - WIP
 * Shadery
 * dwa źródła światła 
 * cieniowanie musi być widoczne
