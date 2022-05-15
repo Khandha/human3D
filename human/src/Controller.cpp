@@ -23,7 +23,7 @@ void Controller::update(void)
 void Controller::mouseHandler(void)
 {
     // handles mouse position and clicks
-    glfwGetCursorPos(this->window, &(this->mouse.pos(0)), &(this->mouse.pos(1)));
+    glfwGetCursorPos(this->window, &(this->mouse.pos[0]), &(this->mouse.pos[1]));
     for (size_t b = 0; b < N_MOUSE_BUTTON; ++b)
         this->mouse.button[b] = (glfwGetMouseButton(this->window, b) == GLFW_PRESS);
 }
@@ -113,7 +113,7 @@ void Controller::setKeyProperties(int k, eKeyMode type, short sval, GLuint coold
     this->key[k].cycles = cycles;
 }
 
-tMilliseconds Controller::getElapsedMilliseconds(tTimePoint prev)
+millisecs Controller::getElapsedMilliseconds(tTimePoint prev)
 {
     return (std::chrono::steady_clock::now() - prev);
 }

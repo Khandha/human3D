@@ -35,7 +35,7 @@ void Renderer::loop(void)
         this->env->getController()->update();
 
         // handle animator keys
-        this->env->getAnimator()->handleKeys(this->env->getController()->getKeys());
+        this->env->getAnimator()->handle_keys(this->env->getController()->getKeys());
 
         // update animator
         this->env->getAnimator()->update();

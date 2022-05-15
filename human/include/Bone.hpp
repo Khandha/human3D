@@ -1,14 +1,7 @@
 #pragma once
 
-#include <glad/glad.h>
-#include <glfw3.h>
-
-#include <iostream>
 #include <string>
-#include <array>
 #include <forward_list>
-
-#include "Exception.hpp"
 #include "Model.hpp"
 #include "Matrix.hpp"
 #include "Shader.hpp"

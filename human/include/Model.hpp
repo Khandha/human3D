@@ -1,16 +1,10 @@
 #pragma once
 
 #include <glad/glad.h>
-#include <glfw3.h>
-
-#include <iostream>
-#include <string>
 #include <stack>
 
-#include "Exception.hpp"
 #include "Matrix.hpp"
 #include "Shader.hpp"
-#include "utils.hpp"
 
 enum class eModelType
 {

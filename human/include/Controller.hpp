@@ -15,7 +15,7 @@
 #define N_KEY GLFW_KEY_LAST + 1
 #define N_MOUSE_BUTTON GLFW_MOUSE_BUTTON_LAST + 1
 
-using tMilliseconds = std::chrono::duration<double, std::milli>;
+using millisecs = std::chrono::duration<double, std::milli>;
 using tTimePoint = std::chrono::steady_clock::time_point;
 
 enum class eKeyMode
@@ -76,5 +76,5 @@ private:
     void keyCooldown(int k, short value);
     void keyInstant(int k, short value);
     void keyCycle(int k, short value);
-    static tMilliseconds getElapsedMilliseconds(tTimePoint prev);
+    static millisecs getElapsedMilliseconds(tTimePoint prev);
 };

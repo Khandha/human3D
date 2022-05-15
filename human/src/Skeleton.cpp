@@ -13,7 +13,7 @@ Skeleton::~Skeleton(void)
 
 void Skeleton::update(void) const
 {
-    this->parentBone->update(mtls::mat4identity, this->shader);
+    this->parentBone->update(mat4(1.0f), this->shader);
 }
 
 Bone* Skeleton::operator[](const std::string& id)
@@ -33,8 +33,9 @@ void Skeleton::scaleSelection(const std::array<tKey, N_KEY>& keys, const std::st
         (keys[GLFW_KEY_Y].value - keys[GLFW_KEY_H].value) * 0.05f,
         (keys[GLFW_KEY_I].value - keys[GLFW_KEY_K].value) * 0.05f,
     });
-    this->bones[boneId]->getModel()->scaleExternal = mtls::max(
-        this->bones[boneId]->getModel()->scaleExternal + aScale + gScale, 0);
-    this->bones[boneId]->rescale(mtls::max(this->bones[boneId]->getModel()->getScaling() + aScale + gScale, 0));
+    this->bones[boneId]->getModel()->scaleExternal = max(
+        this->bones[boneId]->getModel()->scaleExternal + aScale + gScale, 0.0f);
+    this->bones[boneId]->rescale(max(this->bones[boneId]->getModel()->getScaling() + aScale + gScale, 0.0f));
     this->update();
+    //Only on walking
 }

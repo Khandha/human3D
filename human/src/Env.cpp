@@ -16,8 +16,8 @@ Env::Env(void) : character()
             throw Exception::InitError("glad initialization failed");
         this->controller = new Controller(this->window.ptr);
         this->character = new Skeleton(this->createCharacterSkeleton(), "torso");
-        this->animator = new Animator(this->character, {
-                                          {new tAnimationFrames({{}}), 100},
+        this->animator = new Animating(this->character, {
+                                          {new anim_frames({{}}), 100},
                                           {this->createWalkingAnimation(), 750},
                                       });
         this->setupController();
@@ -72,12 +72,12 @@ void Env::framebufferSizeCallback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-tAnimationFrames* Env::createWalkingAnimation(void)
+anim_frames* Env::createWalkingAnimation(void)
 {
-    const auto walkingAnimation = new tAnimationFrames({
+    const auto walkingAnimation = new anim_frames({
         {
             // contact
-            new std::vector<tBoneTransform>({
+            new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({-0.7f, 0, 0}), vec3({0, 0, 0})},
                     {"lowerArmLeft", vec3({0, 0, 0}), vec3({0.7f, 0, 0}), vec3({0, 0, 0})},
@@ -93,7 +93,7 @@ tAnimationFrames* Env::createWalkingAnimation(void)
                 }
             }),
             // going down
-            new std::vector<tBoneTransform>({
+            new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({-0.8f, 0, 0}), vec3({0, 0, 0})},
                     {"lowerArmLeft", vec3({0, 0, 0}), vec3({0.6f, 0, 0}), vec3({0, 0, 0})},
@@ -109,7 +109,7 @@ tAnimationFrames* Env::createWalkingAnimation(void)
                 }
             }),
             // average pose
-            new std::vector<tBoneTransform>({
+            new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({-0.03f, 0, 0}), vec3({0, 0, 0})},
                     {"lowerArmLeft", vec3({0, 0, 0}), vec3({0.25f, 0, 0}), vec3({0, 0, 0})},
@@ -125,7 +125,7 @@ tAnimationFrames* Env::createWalkingAnimation(void)
                 }
             }),
             // going up
-            new std::vector<tBoneTransform>({
+            new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({0.4f, 0, 0}), vec3({0, 0, 0})},
                     {"lowerArmLeft", vec3({0, 0, 0}), vec3({0.2f, 0, 0}), vec3({0, 0, 0})},
@@ -141,7 +141,7 @@ tAnimationFrames* Env::createWalkingAnimation(void)
                 }
             }),
             // contact again
-            new std::vector<tBoneTransform>({
+            new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({0.7f, -0.9f, 0.1f}), vec3({0, 0, 0})},
                     {"lowerArmLeft", vec3({0, 0, 0}), vec3({0.5, 0, 0}), vec3({0, 0, 0})},
@@ -157,7 +157,7 @@ tAnimationFrames* Env::createWalkingAnimation(void)
                 }
             }),
             // going down
-            new std::vector<tBoneTransform>({
+            new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({0.8f, -0.5f, 0.05f}), vec3({0, 0, 0})},
                     {"lowerArmLeft", vec3({0, 0, 0}), vec3({0.6f, 0, 0}), vec3({0, 0, 0})},
@@ -173,7 +173,7 @@ tAnimationFrames* Env::createWalkingAnimation(void)
                 }
             }),
             // average pose
-            new std::vector<tBoneTransform>({
+            new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({0.3f, -0.2f, 0}), vec3({0, 0, 0})},
                     {"lowerArmLeft", vec3({0, 0, 0}), vec3({0.3f, 0, 0}), vec3({0, 0, 0})},
@@ -189,7 +189,7 @@ tAnimationFrames* Env::createWalkingAnimation(void)
                 }
             }),
             // going up
-            new std::vector<tBoneTransform>({
+            new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({-0.2f, 0, 0}), vec3({0, 0, 0})},
                     {"lowerArmLeft", vec3({0, 0, 0}), vec3({0.3f, 0, 0}), vec3({0, 0, 0})},
