@@ -8,3 +8,5 @@
 * teksturowanie środowiska (podłogi)? 
 * dalsze czyszczenie projektu z niepotrzebnych rzeczy, upraszczenie kodu
 * Shadery
+* dwa źródła światła 
+* cieniowanie musi być widoczne

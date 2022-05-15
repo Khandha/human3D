@@ -1,18 +1,12 @@
 #pragma once
 
 #include <glad/glad.h>
-
-#include <cmath>
-#include <iostream>
-#include <string>
-#include <fstream>
 #include <chrono>
 
-#include "Exception.hpp"
 #include "Matrix.hpp"
 #include "Controller.hpp"
 
-using tMilliseconds = std::chrono::duration<double, std::milli>;
+using millisecs = std::chrono::duration<double, std::milli>;
 using tTimePoint = std::chrono::steady_clock::time_point;
 
 class Camera
@@ -24,7 +18,7 @@ public:
     ~Camera(void);
 
     vec3 interpolate(const vec3& v0, const vec3& v1, tTimePoint last, size_t duration = 250);
-    static tMilliseconds getElapsedMilliseconds(tTimePoint last);
+    static millisecs getElapsedMilliseconds(tTimePoint last);
 
     void handleKeys(const std::array<tKey, N_KEY>& keys, const vec3& lockPos);
     /* Setters */

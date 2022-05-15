@@ -10,18 +10,18 @@
 
 inline void push_indices(std::vector<GLuint>& indices, int sectors, int r, int s)
 {
-    const int currRow = r * sectors;
-    const int nextRow = (r + 1) * sectors;
-    const int nextS = (s + 1) % sectors;
-    indices.push_back(currRow + s);
-    indices.push_back(nextRow + s);
-    indices.push_back(nextRow + nextS);
-    indices.push_back(currRow + s);
-    indices.push_back(nextRow + nextS);
-    indices.push_back(currRow + nextS);
+    const int curr_row = r * sectors;
+    const int next_row = (r + 1) * sectors;
+    const int next_s = (s + 1) % sectors;
+    indices.push_back(curr_row + s);
+    indices.push_back(next_row + s);
+    indices.push_back(next_row + next_s);
+    indices.push_back(curr_row + s);
+    indices.push_back(next_row + next_s);
+    indices.push_back(curr_row + next_s);
 }
 
-void createSphere(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices, float radius, unsigned int rings,
+void create_sphere(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices, float radius, unsigned int rings,
                   unsigned int sectors)
 {
     const float R = 1.0f / static_cast<float>(rings - 1);
@@ -46,7 +46,7 @@ void createSphere(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices, 
     }
 }
 
-void createCube(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices)
+void create_cube(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices)
 {
     vertices = {
         {
@@ -72,19 +72,19 @@ void createCube(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices)
     };
 }
 
-vec4 hex2vec(int64_t hex)
+vec4 hex2_vec(int64_t hex)
 {
     return vec4({
-        ((hex >> 16) & 0xFF) / 255.0f,
-        ((hex >> 8) & 0xFF) / 255.0f,
-        ((hex) & 0xFF) / 255.0f,
+        (hex >> 16 & 0xFF) / 255.0f,
+        (hex >> 8 & 0xFF) / 255.0f,
+        (hex & 0xFF) / 255.0f,
         1
     });
 }
 
-vec2 mousePosToClipSpace(const vec2d& pos, int winWidth, int winHeight)
+vec2 mouse_pos_to_clip_space(const vec2d& pos, int winWidth, int winHeight)
 {
     vec2 mouse = vec2({static_cast<float>(pos[0]) / winWidth, static_cast<float>(pos[1]) / winHeight}) * 2.0f - 1.0f;
-    mouse(1) = -mouse[1];
-    return (mouse);
+    mouse[1] = -mouse[1];
+    return mouse;
 }

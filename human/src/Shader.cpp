@@ -1,5 +1,7 @@
 #include "Shader.hpp"
 
+#include "glm/gtc/type_ptr.hpp"
+
 Shader::Shader(const std::string& vertexShader, const std::string& fragmentShader)
 {
     const std::string vSrc = getFromFile(vertexShader);
@@ -89,32 +91,12 @@ unsigned int Shader::getUniformLocation(const std::string& name)
     return (newLoc);
 }
 
-void Shader::setMat2UniformValue(const std::string& name, const mat2& m)
-{
-    glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE, m.getRawData());
-}
-
-void Shader::setMat3UniformValue(const std::string& name, const mat3& m)
-{
-    glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, m.getRawData());
-}
-
 void Shader::setMat4UniformValue(const std::string& name, const mat4& m)
 {
-    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, m.getRawData());
-}
-
-void Shader::setVec2UniformValue(const std::string& name, const vec2& v)
-{
-    glUniform2fv(getUniformLocation(name), 1, v.getRawData());
-}
-
-void Shader::setVec3UniformValue(const std::string& name, const vec3& v)
-{
-    glUniform3fv(getUniformLocation(name), 1, v.getRawData());
+    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, value_ptr(m));
 }
 
 void Shader::setVec4UniformValue(const std::string& name, const vec4& v)
 {
-    glUniform4fv(getUniformLocation(name), 1, v.getRawData());
+    glUniform4fv(getUniformLocation(name), 1, value_ptr(v));
 }
