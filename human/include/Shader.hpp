@@ -31,6 +31,10 @@ public:
 
     GLuint id;
 
+    GLuint u(const char* variableName) { return glGetUniformLocation(this->id, variableName); }
+    GLuint a(const char* variableName) { return glGetAttribLocation(this->id, variableName); }
+
+
 private:
     std::unordered_map<std::string, unsigned int> uniformLocations;
 };

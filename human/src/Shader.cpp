@@ -10,6 +10,7 @@ Shader::Shader(const std::string& vertexShader, const std::string& fragmentShade
     GLuint vertShader = this->create(vSrc.c_str(), GL_VERTEX_SHADER);
     GLuint fragShader = this->create(fSrc.c_str(), GL_FRAGMENT_SHADER);
     this->id = this->createProgram({{vertShader, fragShader}});
+
 }
 
 Shader::~Shader(void)

@@ -59,4 +59,6 @@ void Renderer::updateShaderUniforms(void)
 {
     this->shader.setMat4UniformValue("view", this->camera.getViewMatrix());
     this->shader.setMat4UniformValue("projection", this->camera.getProjectionMatrix());
+    this->shader.setVec4UniformValue("lightPos", glm::vec4(0.2,0,6,1));
+    this->shader.setVec4UniformValue("lightColor", glm::vec4(0.7,0.7, 0.7,1));
 }

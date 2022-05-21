@@ -81,8 +81,8 @@ void Animating::update(void)
             transform = mat4(1.0f);
 
             // translate and rotate bones to the next frame
-            glm::translate(transform, glm::mix(curr.translation, next.translation, t));
-            glm::rotate_around_offset(transform, glm::mix(curr.rotation, next.rotation, t),
+            translate(transform, glm::mix(curr.translation, next.translation, t));
+            rotate_around_offset(transform, glm::mix(curr.rotation, next.rotation, t),
                          (*this->skeleton)[curr.boneId]->getModel()->getJoint());
 
             // transform the bone to the next frame

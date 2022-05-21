@@ -44,8 +44,7 @@ void Bone::rescale(const vec3& v, bool child) //przy ruchu
 void Bone::update(const mat4& transform, Shader* shader)
 {
     this->model->update(transform, shader);
-    const mat4 parentTransform = this->model->popMatrix(); //parent transform wrong on animation
-
+    const mat4 parent_transform = this->model->popMatrix();
     for (auto it = this->children.begin(); it != this->children.end(); ++it)
-        if (*it) (*it)->update(parentTransform, shader);
+        if (*it) (*it)->update(parent_transform, shader);
 }

@@ -1,6 +1,7 @@
 #include "Model.hpp"
 
 #include "utils.hpp"
+#include "glm/gtc/type_ptr.hpp"
 #include "glm/gtx/string_cast.hpp"
 
 // TODO: review this file
@@ -8,7 +9,7 @@ Model::Model(const vec3& position, const vec3& orientation, const vec3& scale, c
     position(position), orientation(orientation), scale(scale), joint(joint), color(hex2_vec(color))
 {
     this->nIndices = 0;
-    this->initBufferObjects(GL_STATIC_DRAW, eModelType::cylinder);
+    this->initBufferObjects(GL_STATIC_DRAW, eModelType::cube);
     this->pushMatrix(mat4(1.0f));
     this->externalTransform = mat4(1.0f);
     this->worldPosition = vec3(0, 0, 0);
@@ -36,7 +37,7 @@ void Model::update(const mat4& parentTransform, Shader* shader)
 {
     this->pushMatrix();
     this->stack.top() = translate(this->stack.top(), this->position);
-    glm::rotate_around_offset(this->stack.top(), this->orientation, this->joint);
+    this->stack.top() = rotate_around_offset(this->stack.top(), this->orientation, this->joint);
     this->stack.top() = parentTransform * this->stack.top() * this->externalTransform;
     this->pushMatrix();
     this->updateWorldPosition(parentTransform);
@@ -51,12 +52,11 @@ void Model::render(Shader* shader)
     shader->setVec4UniformValue("customColor", color);
     shader->setMat4UniformValue("model", this->stack.top());
     glBindVertexArray(this->vao);
-    glDrawElements(GL_TRIANGLES, this->nIndices, GL_UNSIGNED_INT, nullptr);
+    glDrawArrays(GL_TRIANGLES, 0, this->nIndices);
 }
 
 void Model::updateWorldPosition(const mat4& parentTransform)
 {
-    //checked returns correct value
     this->worldPosition = vec4(0, 0, 0, 1) * transpose(this->stack.top());
 }
 
@@ -64,6 +64,7 @@ void Model::initBufferObjects(int mode, eModelType modelType)
 {
     std::vector<GLfloat> vertices;
     std::vector<GLuint> indices;
+    std::vector<GLuint> normals;
 
     switch (modelType)
     {
@@ -90,13 +91,11 @@ void Model::initBufferObjects(int mode, eModelType modelType)
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertices.size(), vertices.data(), mode);
 
-    // copy our indices array in a buffer for OpenGL to use
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * indices.size(), indices.data(), mode);
-
     // set the vertex attribute pointers
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), static_cast<GLvoid*>(nullptr));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), static_cast<GLvoid*>(nullptr));
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
