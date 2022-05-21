@@ -64,7 +64,6 @@ void Model::initBufferObjects(int mode, eModelType modelType)
 {
     std::vector<GLfloat> vertices;
     std::vector<GLuint> indices;
-    std::vector<GLuint> normals;
 
     switch (modelType)
     {
@@ -94,8 +93,15 @@ void Model::initBufferObjects(int mode, eModelType modelType)
     // set the vertex attribute pointers
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), static_cast<GLvoid*>(nullptr));
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+
+    //TODO: problem leży tutaj
+    // normalne są zabite na stałe w create_cube
+    // musisz znaleźć sposób na obliczanie normalnych w Model::update albo Model::render i update'owanie tych wartości
+    // nie mogą być uniformowe więc wyciągnij je osobno i zmień linijki powyżej i poniżej
+    // ez
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+    
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
