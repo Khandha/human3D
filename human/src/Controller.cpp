@@ -2,10 +2,12 @@
 
 Controller::Controller(GLFWwindow* window) : window(window)
 {
-
+    // TODO: Change this message according to WIP status
     this->ref = std::chrono::steady_clock::now();
-    std::cout << "[a][d] : move camera left/right\n\
-[1][2] : select animation\n\
+    std::cout << "[w][s] : move camera forward/backward\n[a][d] : move camera left/right\n\
+[space][shift] : move camera up/down\n\n[i][k] : scale z axis\n[j][l] : scale x axis\n\
+[y][h] : scale y axis\n[-][=] : scale all axes\n\n[m] : switch bones model\n\
+[c] : switch free/orbit camera mode\n[1][2] : select animation\n\
 [esc] : quit\n";
 }
 
@@ -14,7 +16,16 @@ Controller::~Controller(void)
 
 void Controller::update(void)
 {
+    this->mouseHandler();
     this->keyHandler();
+}
+
+void Controller::mouseHandler(void)
+{
+    // handles mouse position and clicks
+    glfwGetCursorPos(this->window, &(this->mouse.pos(0)), &(this->mouse.pos(1)));
+    for (size_t b = 0; b < N_MOUSE_BUTTON; ++b)
+        this->mouse.button[b] = (glfwGetMouseButton(this->window, b) == GLFW_PRESS);
 }
 
 // TODO: keyboard must handle moving the cyborg
@@ -102,7 +113,7 @@ void Controller::setKeyProperties(int k, eKeyMode type, short sval, GLuint coold
     this->key[k].cycles = cycles;
 }
 
-millisecs Controller::getElapsedMilliseconds(tTimePoint prev)
+tMilliseconds Controller::getElapsedMilliseconds(tTimePoint prev)
 {
     return (std::chrono::steady_clock::now() - prev);
 }
