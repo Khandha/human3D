@@ -93,10 +93,14 @@ void Animator::update(void)
 
 void Animator::handleKeys(const std::array<tKey, N_KEY>& keys)
 {
-    if (keys[GLFW_KEY_1].value)
-        this->selectAnim(0); // idle (no animation)
-    else if (keys[GLFW_KEY_2].value)
-        this->selectAnim(1); // walking
+    //if (keys[GLFW_KEY_1].value)
+    //    this->selectAnim(0); // idle (no animation)
+   // else if (keys[GLFW_KEY_W].value) //changed 2 to W
+    //    this->selectAnim(1); // walking
+    
+    if (keys[GLFW_KEY_W].value)
+       this->selectAnim(1); // walking
+    else this->selectAnim(0); // idle (no animation)
 }
 
 tMilliseconds Animator::getElapsedMilliseconds(void) const
