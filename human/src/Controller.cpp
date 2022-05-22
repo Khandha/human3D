@@ -4,10 +4,13 @@ Controller::Controller(GLFWwindow* window) : window(window)
 {
     // TODO: Change this message according to WIP status
     this->ref = std::chrono::steady_clock::now();
-    std::cout << "[w][s] : move camera forward/backward\n[a][d] : move camera left/right\n\
+   // std::cout << "[w][s] : move camera forward/backward\n[a][d] : move camera left/right\n\
 [space][shift] : move camera up/down\n\n[i][k] : scale z axis\n[j][l] : scale x axis\n\
 [y][h] : scale y axis\n[-][=] : scale all axes\n\n[m] : switch bones model\n\
 [c] : switch free/orbit camera mode\n[1][2] : select animation\n\
+[esc] : quit\n";
+    std::cout << "[a][d] : move camera left/right\n\
+    [w] : start animation\n\
 [esc] : quit\n";
 }
 
