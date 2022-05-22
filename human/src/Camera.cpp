@@ -32,7 +32,7 @@ void Camera::handleKeys(const std::array<tKey, N_KEY>& keys, const vec3& lockPos
     vec4 translate({
         static_cast<float>(keys[GLFW_KEY_A].value - keys[GLFW_KEY_D].value),
         static_cast<float>(keys[GLFW_KEY_LEFT_SHIFT].value - keys[GLFW_KEY_SPACE].value),
-        static_cast<float>(keys[GLFW_KEY_W].value - keys[GLFW_KEY_S].value),
+        static_cast<float>(keys[GLFW_KEY_Q].value - keys[GLFW_KEY_S].value),
         1.0f
     });
     // translation is in the same coordinate system as view (moves in same direction) 
