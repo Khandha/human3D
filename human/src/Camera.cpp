@@ -65,15 +65,15 @@ void Camera::handleKeys(const std::array<tKey, N_KEY>& keys, const vec3& lockPos
 {
     vec4 translate({
         static_cast<float>(keys[GLFW_KEY_A].value - keys[GLFW_KEY_D].value),
-        static_cast<float>(keys[GLFW_KEY_LEFT_SHIFT].value - keys[GLFW_KEY_SPACE].value),
-        static_cast<float>(keys[GLFW_KEY_Q].value - keys[GLFW_KEY_S].value),
-        1.0f
+        //static_cast<float>(keys[GLFW_KEY_LEFT_SHIFT].value - keys[GLFW_KEY_SPACE].value),
+        //static_cast<float>(keys[GLFW_KEY_Q].value - keys[GLFW_KEY_S].value),
+       //1.0f
     });
     // translation is in the same coordinate system as view (moves in same direction) 
     translate = this->viewMatrix * mtls::normalize(translate);
     /* change the target if we are in orbit or free mode */
-    if (keys[GLFW_KEY_C].value)
-        this->target = this->interpolate(this->target, lockPos, keys[GLFW_KEY_C].stamp, 2000);
+    if (keys[GLFW_KEY_W].value) //changed key C to W
+        this->target = this->interpolate(this->target, lockPos, keys[GLFW_KEY_W].stamp, 2000);//changed key C to W
     else
         this->target = this->target + this->viewMatrix * vec4({0, 0, -1, 0});
     this->position = this->position - static_cast<vec3>(translate) * 0.5f;
