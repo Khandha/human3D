@@ -6,7 +6,7 @@ Bone::Bone(std::forward_list<Bone*> children, std::string name, const vec3& posi
            const vec3& scale, const vec3& joint, const int64_t color) : name(std::move(name)),
                                                                         children(std::move(children))
 {
-    this->model = new Model(position, orientation, scale, joint, color);
+    this->model = new Model(position, orientation, scale, joint, color, this->name);
 }
 
 Bone::~Bone(void)

@@ -28,7 +28,6 @@ void Renderer::loop(void)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // use custom shader
-        // TODO: implement proper shaders in shader folder? investigation
         this->shader.use();
 
         // update controller
@@ -59,6 +58,12 @@ void Renderer::updateShaderUniforms(void)
 {
     this->shader.setMat4UniformValue("view", this->camera.getViewMatrix());
     this->shader.setMat4UniformValue("projection", this->camera.getProjectionMatrix());
-    this->shader.setVec4UniformValue("lightPos", glm::vec4(0.2,0,6,1));
-    this->shader.setVec4UniformValue("lightColor", glm::vec4(0.7,0.7, 0.7,1));
+    
+    this->shader.setVec4UniformValue("lightPosA", glm::vec4(0,-1,9,1));
+    this->shader.setVec4UniformValue("lightColorA", glm::vec4(0.6,0.6, 0.6,1));
+    
+    this->shader.setVec4UniformValue("lightPosB", glm::vec4(0,2,0,1));
+    this->shader.setVec4UniformValue("lightColorB", glm::vec4(0.909, 0.909, 0.568, 1));
+    
+    this->shader.setVec4UniformValue("viewPos", glm::vec4(this->camera.getPosition(), 1));
 }

@@ -6,6 +6,7 @@
 #include "Matrix.hpp"
 #include "Shader.hpp"
 
+
 enum class eModelType
 {
     cube,
@@ -16,7 +17,7 @@ enum class eModelType
 class Model
 {
 public:
-    Model(const vec3& position, const vec3& orientation, const vec3& scale, const vec3& joint, int64_t color);
+    Model(const vec3& position, const vec3& orientation, const vec3& scale, const vec3& joint, int64_t color, std::string name);
     ~Model(void);
 
     void update(const mat4& parentTransform, Shader* shader);
@@ -70,6 +71,12 @@ private:
 
     bool selected; // true if the model is selected
 
+    std::string name;
+
+    GLuint texture;
+    GLuint texture_sm;
+
     void initBufferObjects(int mode = GL_STATIC_DRAW, eModelType modelType = eModelType::cube);
+    unsigned loadTexture(char const* path);
     void updateWorldPosition(const mat4& parentTransform);
 };
