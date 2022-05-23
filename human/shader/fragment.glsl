@@ -9,6 +9,7 @@ uniform vec4 lightColorB;
 uniform vec4 viewPos;
 uniform sampler2D texture1;
 uniform sampler2D texture2;
+uniform sampler2D texture_nl;
 
 in vec3 Normal;
 in vec3 FragPos;
@@ -52,7 +53,7 @@ void main() {
     float specularStrength = 0.4;
   
     // normalize normal vertices 
-    vec3 norm = normalize(Normal);
+    vec3 norm = normalize(Normal * texture(texture_nl, TexCoords).rgb);
 
     // calculate result and return for vertice
     

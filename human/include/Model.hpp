@@ -75,6 +75,7 @@ private:
 
     GLuint texture;
     GLuint texture_sm;
+    GLuint texture_nl;
 
     void initBufferObjects(int mode = GL_STATIC_DRAW, eModelType modelType = eModelType::cube);
     unsigned loadTexture(char const* path);

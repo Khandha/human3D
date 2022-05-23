@@ -63,7 +63,7 @@ void Renderer::updateShaderUniforms(void)
     this->shader.setVec4UniformValue("lightColorA", glm::vec4(0.6,0.6, 0.6,1));
     
     this->shader.setVec4UniformValue("lightPosB", glm::vec4(0,2,0,1));
-    this->shader.setVec4UniformValue("lightColorB", glm::vec4(0.909, 0.909, 0.568, 1));
+    this->shader.setVec4UniformValue("lightColorB", glm::vec4(0.996, 0.988, 0.784, 1));
     
     this->shader.setVec4UniformValue("viewPos", glm::vec4(this->camera.getPosition(), 1));
 }

@@ -59,6 +59,9 @@ void Model::render(Shader* shader)
 
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, this->texture_sm);
+
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, this->texture_nl);
     
     glBindVertexArray(this->vao);
     glDrawArrays(GL_TRIANGLES, 0, this->nIndices);
@@ -104,6 +107,9 @@ void Model::initBufferObjects(int mode, eModelType modelType)
     
     glActiveTexture(GL_TEXTURE1);
     this->texture_sm = this->loadTexture(this->name.compare("head") == 0 ? "textures/1_sm.bmp" : "textures/6_sm.bmp");
+
+    glActiveTexture(GL_TEXTURE2);
+    this->texture_nl = this->loadTexture(this->name.compare("head") == 0 ? "textures/1_normal.bmp" : "textures/6_normal.bmp");
 
     // set the vertex attribute pointers
     
