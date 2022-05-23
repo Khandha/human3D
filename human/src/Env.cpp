@@ -1,9 +1,5 @@
 #include "Env.hpp"
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 Env::Env(void) : character()
 {
     try
@@ -17,8 +13,8 @@ Env::Env(void) : character()
         this->controller = new Controller(this->window.ptr);
         this->character = new Skeleton(this->createCharacterSkeleton(), "torso");
         this->animator = new Animating(this->character, {
-                                          {new anim_frames({{}}), 100},
-                                          {this->createWalkingAnimation(), 750},
+                                          {new anim_frames({{}}), 200},
+                                          {this->createWalkingAnimation(), 1000},
                                       });
         this->setupController();
     }
@@ -52,7 +48,7 @@ void Env::initGlfwEnvironment(const std::string& glVersion) const
 void Env::initGlfwWindow(size_t width, size_t height)
 {
     glfwWindowHint(GLFW_SAMPLES, 8);
-    if (!(this->window.ptr = glfwCreateWindow(width, height, "humanGL", nullptr, nullptr)))
+    if (!(this->window.ptr = glfwCreateWindow(width, height, "Cyborg 3D", nullptr, nullptr)))
         throw Exception::InitError("glfwCreateWindow failed");
     glfwMakeContextCurrent(this->window.ptr);
     glfwSetFramebufferSizeCallback(this->window.ptr, this->framebufferSizeCallback);
@@ -64,7 +60,6 @@ void Env::initGlfwWindow(size_t width, size_t height)
 void Env::setupController(void) const
 {
     this->controller->setKeyProperties(GLFW_KEY_C, eKeyMode::toggle, 0, 1000);
-    this->controller->setKeyProperties(GLFW_KEY_M, eKeyMode::cycle, 1, 300, 3);
 }
 
 void Env::framebufferSizeCallback(GLFWwindow* window, int width, int height)
@@ -76,7 +71,7 @@ anim_frames* Env::createWalkingAnimation(void)
 {
     const auto walkingAnimation = new anim_frames({
         {
-            // contact
+            // idle
             new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({-0.7f, 0, 0}), vec3({0, 0, 0})},
@@ -92,7 +87,7 @@ anim_frames* Env::createWalkingAnimation(void)
                     {"lowerLegRight", vec3({0, 0, 0}), vec3({-0.2f, 0, 0}), vec3({0, 0, 0})},
                 }
             }),
-            // going down
+            // down
             new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({-0.8f, 0, 0}), vec3({0, 0, 0})},
@@ -108,7 +103,7 @@ anim_frames* Env::createWalkingAnimation(void)
                     {"lowerLegRight", vec3({0, 0, 0}), vec3({-0.2f, 0, 0}), vec3({0, 0, 0})},
                 }
             }),
-            // average pose
+            // avg
             new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({-0.03f, 0, 0}), vec3({0, 0, 0})},
@@ -140,7 +135,7 @@ anim_frames* Env::createWalkingAnimation(void)
                     {"lowerLegRight", vec3({0, 0, 0}), vec3({-1.2f, 0, 0}), vec3({0, 0, 0})},
                 }
             }),
-            // contact again
+            // idle
             new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({0.7f, -0.9f, 0.1f}), vec3({0, 0, 0})},
@@ -156,7 +151,7 @@ anim_frames* Env::createWalkingAnimation(void)
                     {"lowerLegRight", vec3({0, 0, 0}), vec3({-0.1f, 0, 0}), vec3({0, 0, 0})},
                 }
             }),
-            // going down
+            // down
             new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({0.8f, -0.5f, 0.05f}), vec3({0, 0, 0})},
@@ -172,7 +167,7 @@ anim_frames* Env::createWalkingAnimation(void)
                     {"lowerLegRight", vec3({0, 0, 0}), vec3({-0.8f, 0, 0}), vec3({0, 0, 0})},
                 }
             }),
-            // average pose
+            // avg
             new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({0.3f, -0.2f, 0}), vec3({0, 0, 0})},
@@ -188,7 +183,7 @@ anim_frames* Env::createWalkingAnimation(void)
                     {"lowerLegRight", vec3({0, 0, 0}), vec3({0, 0, 0}), vec3({0, 0, 0})},
                 }
             }),
-            // going up
+            // up
             new std::vector<bone_transform>({
                 {
                     {"upperArmLeft", vec3({0, 0, 0}), vec3({-0.2f, 0, 0}), vec3({0, 0, 0})},
@@ -209,8 +204,6 @@ anim_frames* Env::createWalkingAnimation(void)
     });
     return (walkingAnimation);
 }
-
-// TODO: Change colors and shapes maybe? Hook up textures here? Abstract this?
 
 std::unordered_map<std::string, Bone*> Env::createCharacterSkeleton(void)
 {

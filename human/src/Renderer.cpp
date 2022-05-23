@@ -4,7 +4,7 @@ Renderer::Renderer(Env* env) :
     //environment initialization
     env(env),
     shader("./shader/vertex.glsl", "./shader/fragment.glsl"),
-    camera(75, static_cast<float>(env->getWindow().width) / static_cast<float>(env->getWindow().height))
+    camera(50, static_cast<float>(env->getWindow().width) / static_cast<float>(env->getWindow().height))
 {
     this->env->getCharacter()->setShader(&this->shader);
 }
@@ -22,13 +22,12 @@ void Renderer::loop(void)
         glfwPollEvents();
 
         // background color
-        glClearColor(0.337f, 0.368f, 0.462f, 1);
+        glClearColor(0.858f, 0.854f, 0.843f, 1);
 
         // clear buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // use custom shader
-        // TODO: implement proper shaders in shader folder? investigation
         this->shader.use();
 
         // update controller
@@ -59,4 +58,12 @@ void Renderer::updateShaderUniforms(void)
 {
     this->shader.setMat4UniformValue("view", this->camera.getViewMatrix());
     this->shader.setMat4UniformValue("projection", this->camera.getProjectionMatrix());
+    
+    this->shader.setVec4UniformValue("lightPosA", glm::vec4(0,-2,9,1));
+    this->shader.setVec4UniformValue("lightColorA", glm::vec4(1,1, 1,1));
+    
+    this->shader.setVec4UniformValue("lightPosB", glm::vec4(0,2,0,1));
+    this->shader.setVec4UniformValue("lightColorB", glm::vec4(0.996, 0.988, 0.784, 1));
+    
+    this->shader.setVec4UniformValue("viewPos", glm::vec4(this->camera.getPosition(), 1));
 }

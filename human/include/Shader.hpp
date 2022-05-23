@@ -30,7 +30,7 @@ public:
     void setVec4UniformValue(const std::string& name, const vec4& v);
 
     GLuint id;
-
+    
 private:
     std::unordered_map<std::string, unsigned int> uniformLocations;
 };

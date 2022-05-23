@@ -590,6 +590,7 @@
         <ClInclude Include="ext\include\glm\vec4.hpp" />
         <ClInclude Include="ext\include\glm\vector_relational.hpp" />
         <ClInclude Include="ext\include\KHR\khrplatform.h" />
+        <ClInclude Include="ext\include\stb_image.h" />
         <ClInclude Include="include\Animating.hpp" />
         <ClInclude Include="include\Bone.hpp" />
         <ClInclude Include="include\Camera.hpp" />

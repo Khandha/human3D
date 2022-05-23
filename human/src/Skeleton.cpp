@@ -22,20 +22,3 @@ Bone* Skeleton::operator[](const std::string& id)
         throw Exception::SkeletonMapAccessError(id);
     return (this->bones[id]);
 }
-
-void Skeleton::scaleSelection(const std::array<tKey, N_KEY>& keys, const std::string& boneId)
-{
-    /* scaling all axis */
-    const float gScale = (keys[GLFW_KEY_EQUAL].value - keys[GLFW_KEY_MINUS].value) * 0.05f;
-    /* individual axis scaling */
-    const vec3 aScale({
-        (keys[GLFW_KEY_L].value - keys[GLFW_KEY_J].value) * 0.05f,
-        (keys[GLFW_KEY_Y].value - keys[GLFW_KEY_H].value) * 0.05f,
-        (keys[GLFW_KEY_I].value - keys[GLFW_KEY_K].value) * 0.05f,
-    });
-    this->bones[boneId]->getModel()->scaleExternal = max(
-        this->bones[boneId]->getModel()->scaleExternal + aScale + gScale, 0.0f);
-    this->bones[boneId]->rescale(max(this->bones[boneId]->getModel()->getScaling() + aScale + gScale, 0.0f));
-    this->update();
-    //Only on walking
-}

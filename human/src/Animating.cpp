@@ -3,8 +3,6 @@
 
 Animating::Animating(Skeleton* skeleton, std::vector<anim> animations) : skeleton(skeleton), animations(animations)
 {
-    if (animations.empty())
-        throw Exception::RuntimeError("Animator should contain at least one tAnimation");
     this->pTimepoint = std::chrono::steady_clock::now();
     this->cAnim = 0;
     this->cFrame = 0;
@@ -81,8 +79,8 @@ void Animating::update(void)
             transform = mat4(1.0f);
 
             // translate and rotate bones to the next frame
-            glm::translate(transform, glm::mix(curr.translation, next.translation, t));
-            glm::rotate_around_offset(transform, glm::mix(curr.rotation, next.rotation, t),
+            translate(transform, glm::mix(curr.translation, next.translation, t));
+            rotate_around_offset(transform, glm::mix(curr.rotation, next.rotation, t),
                          (*this->skeleton)[curr.boneId]->getModel()->getJoint());
 
             // transform the bone to the next frame
@@ -113,6 +111,5 @@ size_t Animating::get_next_frame(void) const
 float Animating::get_frame_interpolation(void) const
 {
     // return interpolation factor between two frames
-    // return 0.5f;
     return (1 - (this->cFrameDuration - this->get_elapsed_milliseconds().count()) / this->cFrameDuration);
 }
