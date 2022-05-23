@@ -3,8 +3,6 @@
 
 Animating::Animating(Skeleton* skeleton, std::vector<anim> animations) : skeleton(skeleton), animations(animations)
 {
-    if (animations.empty())
-        throw Exception::RuntimeError("Animator should contain at least one tAnimation");
     this->pTimepoint = std::chrono::steady_clock::now();
     this->cAnim = 0;
     this->cFrame = 0;
@@ -113,6 +111,5 @@ size_t Animating::get_next_frame(void) const
 float Animating::get_frame_interpolation(void) const
 {
     // return interpolation factor between two frames
-    // return 0.5f;
     return (1 - (this->cFrameDuration - this->get_elapsed_milliseconds().count()) / this->cFrameDuration);
 }

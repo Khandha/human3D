@@ -81,10 +81,6 @@ void Model::initBufferObjects(int mode, eModelType modelType)
     {
     case eModelType::cube: create_cube(vertices, indices);
         break;
-    case eModelType::sphere: create_sphere(vertices, indices, 0.5f, 40, 40);
-        break;
-    case eModelType::cylinder: create_sphere(vertices, indices, 0.6f, 4, 40);
-        break;
     default: break;
     }
     this->nIndices = indices.size();

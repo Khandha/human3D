@@ -13,17 +13,12 @@ class Camera
 {
 public:
     Camera(float fov, float aspect);
-    Camera(const Camera& rhs);
-    Camera& operator=(const Camera& rhs);
     ~Camera(void);
 
     vec3 interpolate(const vec3& v0, const vec3& v1, tTimePoint last, size_t duration = 250);
     static millisecs getElapsedMilliseconds(tTimePoint last);
 
     void handleKeys(const std::array<tKey, N_KEY>& keys, const vec3& lockPos);
-    /* Setters */
-    void setFov(float fov);
-    void setAspect(float aspect);
     /* Getters */
     const mat4& getProjectionMatrix(void) const { return (projectionMatrix); }
     const mat4& getViewMatrix(void) const { return (viewMatrix); }

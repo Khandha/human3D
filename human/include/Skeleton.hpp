@@ -19,7 +19,6 @@ public:
     ~Skeleton(void);
 
     void update(void) const;
-    void scaleSelection(const std::array<tKey, N_KEY>& keys, const std::string& boneId);
 
     /* setters */
     void setShader(Shader* s) { shader = s; }
@@ -28,7 +27,6 @@ public:
     const std::string& getParentBoneId(void) const { return (parentBoneId); }
     const std::unordered_map<std::string, Bone*>& getBones(void) const { return (bones); }
     Shader* getShader(void) const { return (shader); }
-
     Bone* operator[](const std::string& id);
 
 private:

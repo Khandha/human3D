@@ -57,7 +57,7 @@ void main() {
 
     // calculate result and return for vertice
     
-    vec3 result = calculateLight(norm, lpa, vp, lca, specularStrength, ambient, 128) 
+    vec3 result = calculateLight(norm, lpa, vp, lca, specularStrength, ambient, 200) 
         + 0.6 * calculateLight(norm, lpb, vp, lcb, specularStrength, ambient, 8);
     
     FragColor = vec4(result, 1.0);

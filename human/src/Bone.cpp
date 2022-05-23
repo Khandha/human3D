@@ -16,7 +16,7 @@ Bone::~Bone(void)
     delete this->model;
 }
 
-void Bone::rescale(const vec3& v, bool child) //przy ruchu
+void Bone::rescale(const vec3& v, bool child)
 {
     if (child == false)
     {

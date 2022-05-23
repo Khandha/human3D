@@ -69,7 +69,6 @@ private:
     tTimePoint ref;
     tMouse mouse;
 
-    void mouseHandler(void);
     void keyHandler(void);
     void keyUpdate(int k);
     void keyToggle(int k, short value);

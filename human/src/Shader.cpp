@@ -22,9 +22,6 @@ void Shader::use(void) const
     glUseProgram(this->id);
 }
 
-/*  we load the content of a file in a string (we need that because the shader compilation is done at
-    runtime and glCompileShader expects a <const GLchar *> value)
-*/
 std::string Shader::getFromFile(const std::string& filename)
 {
     std::ifstream ifs(filename);
@@ -32,9 +29,6 @@ std::string Shader::getFromFile(const std::string& filename)
     return (content);
 }
 
-/*  we create the shader from a file in format glsl. The shaderType defines what type of shader it is
-    and it returns the id to the created shader (the shader object is allocated by OpenGL in the back)
-*/
 GLuint Shader::create(const char* shaderSource, GLenum shaderType)
 {
     GLint success;
@@ -46,10 +40,6 @@ GLuint Shader::create(const char* shaderSource, GLenum shaderType)
     return (shader);
 }
 
-/*  here we create the shader program that will be used to render our objects. It takes a list of shaders
-    that will instruct the GPU how to manage the vertices, etc... and we delete the compiled shaders at the
-    end because we no longer need them. We return the id of the created shader program.
-*/
 GLuint Shader::createProgram(const std::forward_list<GLuint>& shaders)
 {
     GLint success;
@@ -64,9 +54,6 @@ GLuint Shader::createProgram(const std::forward_list<GLuint>& shaders)
     return (shaderProgram);
 }
 
-/*  check if the shader or shader program compilation returned an error, if so throw an exception
-    with the message specified by glGetShaderInfoLog or glGetProgramInfoLog.
-*/
 void Shader::isCompilationSuccess(GLint handle, GLint success, int shaderType)
 {
     if (!success)
@@ -80,9 +67,6 @@ void Shader::isCompilationSuccess(GLint handle, GLint success, int shaderType)
     }
 }
 
-/*  find the uniform location in the shader and store it in an unordered_map.
-    next time we want to use it we just have to get the location from the map
-*/
 unsigned int Shader::getUniformLocation(const std::string& name)
 {
     if (this->uniformLocations.find(name) != this->uniformLocations.end())
