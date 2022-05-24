@@ -4,7 +4,7 @@
 Camera::Camera(float fov, float aspect) : fov(fov), aspect(aspect)
 {
     this->projectionMatrix = createPerspectiveProjectionMatrix(fov, aspect);
-    this->position = vec3({0, 1.2, 8}); // tutaj pozycja kamery 
+    this->position = vec3({0, 0, 8}); // tutaj pozycja kamery 
     this->target = vec3({0, 0, 0});
     this->viewMatrix = lookAt(this->position, this->target, vec3(0, 1, 0));
 }
@@ -29,24 +29,18 @@ mat4 Camera::createPerspectiveProjectionMatrix(float fov, float aspect, float ne
 
 void Camera::handleKeys(const std::array<tKey, N_KEY>& keys, const vec3& lockPos)
 {
-    vec4 translate({
-        static_cast<float>(keys[GLFW_KEY_A].value - keys[GLFW_KEY_D].value),
-        static_cast<float>(keys[GLFW_KEY_LEFT_SHIFT].value - keys[GLFW_KEY_SPACE].value),
-        static_cast<float>(keys[GLFW_KEY_W].value - keys[GLFW_KEY_S].value),
-        1.0f
-    });
-    // translation is in the same coordinate system as view (moves in same direction) 
-    translate = this->viewMatrix * glm::normalize(translate);
-    /* change the target if we are in orbit or free mode */
-    if (keys[GLFW_KEY_W].value)
-        this->target = this->interpolate(this->target, lockPos, keys[GLFW_KEY_C].stamp, 2000);
-    else
-        this->target = vec3(0.0f, 0.0f, -2.0f);
-
-    
-    // TODO: tutaj zmiany do obracania kamerą
-
-    
+    float static rotCamera = 0.0f;
+    if (keys[GLFW_KEY_A].value)
+    {
+        rotCamera += 0.002f;
+        glm::vec3 rot(sin(rotCamera) * 8 - this->position.x,  0, cos(rotCamera) * 8 - this->position.z);
+        this->position = vec3(this->position + rot);
+    } else if (keys[GLFW_KEY_D].value)
+    {
+        rotCamera -= 0.002f;
+        glm::vec3 rot(sin(rotCamera) * 8 - this->position.x,  0, cos(rotCamera) * 8 - this->position.z);
+        this->position = vec3(this->position + rot);
+    }
     
     this->viewMatrix = lookAt(this->position, this->target, vec3(0, 1, 0));
 }
