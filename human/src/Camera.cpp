@@ -75,7 +75,7 @@ void Camera::handleKeys(const std::array<tKey, N_KEY>& keys, const vec3& lockPos
     if (keys[GLFW_KEY_C].value)
         this->target = this->interpolate(this->target, lockPos, keys[GLFW_KEY_C].stamp, 2000);
     else
-        this->target = this->target + this->viewMatrix * vec4({0, 0, -1, 0});
+       this->target = this->target + this->viewMatrix * vec4({0, 0, -1, 0});
     this->position = this->position - static_cast<vec3>(translate) * 0.5f;
     this->viewMatrix = mtls::lookAt(this->position, this->target);
 }
