@@ -42,6 +42,12 @@ void Camera::handleKeys(const std::array<tKey, N_KEY>& keys, const vec3& lockPos
         this->target = this->interpolate(this->target, lockPos, keys[GLFW_KEY_C].stamp, 2000);
     else
         this->target = vec3(0.0f, 0.0f, -2.0f);
+
+    
+    // TODO: tutaj zmiany do obracania kamerą
+
+    
+    
     this->viewMatrix = lookAt(this->position, this->target, vec3(0, 1, 0));
 }
 

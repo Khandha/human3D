@@ -92,10 +92,9 @@ void Animating::update(void)
 
 void Animating::handle_keys(const std::array<tKey, N_KEY>& keys)
 {
-    if (keys[GLFW_KEY_1].value)
-        this->select_animation(0); // idle (no animation)
-    else if (keys[GLFW_KEY_2].value)
+    if (keys[GLFW_KEY_W].value)
         this->select_animation(1); // walking
+    else this->select_animation(0); // idle (no animation)
 }
 
 millisecs Animating::get_elapsed_milliseconds(void) const
