@@ -13,6 +13,7 @@ Camera::~Camera(void)
 {
 }
 
+
 mat4 Camera::createPerspectiveProjectionMatrix(float fov, float aspect, float near, float far)
 {
     const float yScale = 1 / std::tan(glm::radians(fov * 0.5));
