@@ -4,7 +4,7 @@
 Camera::Camera(float fov, float aspect) : fov(fov), aspect(aspect)
 {
     this->projectionMatrix = createPerspectiveProjectionMatrix(fov, aspect);
-    this->position = vec3({0, 1.2, 8});
+    this->position = vec3({0, 1.2, 8}); // tutaj pozycja kamery 
     this->target = vec3({0, 0, 0});
     this->viewMatrix = lookAt(this->position, this->target, vec3(0, 1, 0));
 }
