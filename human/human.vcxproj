@@ -124,7 +124,7 @@
         <ClCompile Include="src\Animating.cpp" />
         <ClCompile Include="src\Bone.cpp" />
         <ClCompile Include="src\Camera.cpp" />
-        <ClCompile Include="src\Controller.cpp" />
+        <ClCompile Include="src\Keyboard.cpp" />
         <ClCompile Include="src\Env.cpp" />
         <ClCompile Include="src\glad.c">
           <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
@@ -594,9 +594,8 @@
         <ClInclude Include="include\Animating.hpp" />
         <ClInclude Include="include\Bone.hpp" />
         <ClInclude Include="include\Camera.hpp" />
-        <ClInclude Include="include\Controller.hpp" />
+        <ClInclude Include="include\Keyboard.hpp" />
         <ClInclude Include="include\Env.hpp" />
-        <ClInclude Include="include\Exception.hpp" />
         <ClInclude Include="include\Matrix.hpp" />
         <ClInclude Include="include\Model.hpp" />
         <ClInclude Include="include\Renderer.hpp" />

@@ -10,15 +10,12 @@ class Bone
 {
 public:
     Bone(std::forward_list<Bone*> children, std::string name, const vec3& position, const vec3& orientation,
-         const vec3& scale, const vec3& joint = vec3({0, 0, 0}), int64_t color = 0xFFFFFF);
+         const vec3& scale, const vec3& joint = vec3(0.0f, 0.0f, 0.0f));
     ~Bone(void);
 
     void update(const mat4& transform, Shader* shader);
     void rescale(const vec3& v, bool child = false);
-
-    const std::string& getName(void) const { return (name); }
-    Model* getModel(void) const { return (model); }
-    const std::forward_list<Bone*>& getChildren(void) const { return (children); }
+    Model* get_model(void) const { return (model); }
 
 private:
     std::string name;

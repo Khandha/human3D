@@ -7,31 +7,28 @@
 #include <string>
 #include <unordered_map>
 
-#include "Exception.hpp"
 #include "Bone.hpp"
 #include "Shader.hpp"
-#include "Controller.hpp"
+#include "Keyboard.hpp"
 
 class Skeleton
 {
 public:
     Skeleton(std::unordered_map<std::string, Bone*> bones, std::string parentBoneId);
     ~Skeleton(void);
-
     void update(void) const;
 
-    /* setters */
+    // SETTERS
     void setShader(Shader* s) { shader = s; }
-    /* getters */
-    const Bone* getParentBone(void) const { return (parentBone); }
-    const std::string& getParentBoneId(void) const { return (parentBoneId); }
-    const std::unordered_map<std::string, Bone*>& getBones(void) const { return (bones); }
-    Shader* getShader(void) const { return (shader); }
+    
+    // GETTERS
+    const Bone* get_parent_bone(void) const { return (parent_bone); }
+    const std::unordered_map<std::string, Bone*>& get_bones(void) const { return (bones); }
     Bone* operator[](const std::string& id);
 
 private:
-    Bone* parentBone;
-    std::string parentBoneId;
+    Bone* parent_bone;
+    std::string parent_bone_id;
     std::unordered_map<std::string, Bone*> bones;
     Shader* shader;
 };

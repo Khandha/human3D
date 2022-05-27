@@ -5,16 +5,15 @@
 #include <vector>
 #include <chrono>
 
-#include "Exception.hpp"
 #include "Skeleton.hpp"
 #include "Matrix.hpp"
 #include "Bone.hpp"
-#include "Controller.hpp"
+#include "Keyboard.hpp"
 
 
-using bone_transform = struct s_bone_transform
+struct bone_transform
 {
-    std::string boneId;
+    std::string bone_id;
     vec3 translation;
     vec3 rotation;
     vec3 scale;
@@ -23,7 +22,7 @@ using bone_transform = struct s_bone_transform
 using anim_frames = std::vector<std::vector<bone_transform>*>;
 using millisecs = std::chrono::duration<double, std::milli>;
 
-using anim = struct s_animation
+struct anim
 {
     anim_frames* frames;
     size_t duration;
@@ -37,21 +36,17 @@ public:
 
     void select_animation(size_t id);
     void update(void);
-    void handle_keys(const std::array<tKey, N_KEY>& keys);
+    void handle_keys(const std::array<key, GLFW_KEY_LAST + 1>& keys);
     size_t get_next_frame(void) const;
     float get_frame_interpolation(void) const;
     millisecs get_elapsed_milliseconds(void) const;
 
-    Skeleton* get_skeleton(void) const { return (skeleton); }
-    size_t get_c_anim(void) const { return (cAnim); }
-    size_t get_c_frame(void) const { return (cFrame); }
-    size_t get_c_frame_duration(void) const { return (cFrameDuration); }
 
 private:
     Skeleton* skeleton;
     std::vector<anim> animations;
-    size_t cAnim;
-    size_t cFrame;
-    size_t cFrameDuration;
-    std::chrono::steady_clock::time_point pTimepoint;
+    size_t current_animation;
+    size_t current_frame;
+    size_t current_frame_duration;
+    std::chrono::steady_clock::time_point time_point;
 };

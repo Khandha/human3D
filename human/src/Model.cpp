@@ -1,22 +1,19 @@
 #include "Model.hpp"
 
 #include "utils.hpp"
-#include "glm/gtc/type_ptr.hpp"
 #include "glm/gtx/string_cast.hpp"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-// TODO: review this file
-Model::Model(const vec3& position, const vec3& orientation, const vec3& scale, const vec3& joint, const int64_t color, std::string name) :
-    position(position), orientation(orientation), scale(scale), joint(joint), color(hex2_vec(color)), name(name)
+Model::Model(const vec3& position, const vec3& orientation, const vec3& scale, const vec3& joint, std::string name) :
+    position(position), orientation(orientation), scale(scale), joint(joint), name(name)
 {
-    this->nIndices = 0;
-    this->initBufferObjects(GL_STATIC_DRAW, eModelType::cube);
+    this->number_of_indices = 0;
+    this->init_buffer_objects(GL_STATIC_DRAW, eModelType::cube);
     this->pushMatrix(mat4(1.0f));
-    this->externalTransform = mat4(1.0f);
-    this->worldPosition = vec3(0, 0, 0);
+    this->transform_ = mat4(1.0f);
+    this->world_position = vec3(0, 0, 0);
     this->selected = false;
-    this->scaleExternal = vec3(0, 0, 0);
 }
 
 Model::~Model(void)
@@ -40,9 +37,8 @@ void Model::update(const mat4& parentTransform, Shader* shader)
     this->pushMatrix();
     this->stack.top() = translate(this->stack.top(), this->position);
     this->stack.top() = rotate_around_offset(this->stack.top(), this->orientation, this->joint);
-    this->stack.top() = parentTransform * this->stack.top() * this->externalTransform;
+    this->stack.top() = parentTransform * this->stack.top() * this->transform_;
     this->pushMatrix();
-    this->updateWorldPosition(parentTransform);
     this->stack.top() = glm::scale(this->stack.top(), this->scale + this->scaling);
     this->render(shader);
     this->popMatrix();
@@ -50,9 +46,9 @@ void Model::update(const mat4& parentTransform, Shader* shader)
 
 void Model::render(Shader* shader)
 {
-    const vec4 color = (!this->selected ? this->color : hex2_vec(0xEF4F42));
-    shader->setVec4UniformValue("customColor", color);
-    shader->setMat4UniformValue("model", this->stack.top());
+    const vec4 color = hex2_vec(0xFFFFFF);
+    shader->set_vec4_uniform("customColor", color);
+    shader->set_mat4_uniform("model", this->stack.top());
     
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, this->texture);
@@ -64,15 +60,10 @@ void Model::render(Shader* shader)
     glBindTexture(GL_TEXTURE_2D, this->texture_nl);
     
     glBindVertexArray(this->vao);
-    glDrawArrays(GL_TRIANGLES, 0, this->nIndices);
+    glDrawArrays(GL_TRIANGLES, 0, this->number_of_indices);
 }
 
-void Model::updateWorldPosition(const mat4& parentTransform)
-{
-    this->worldPosition = vec4(0, 0, 0, 1) * transpose(this->stack.top());
-}
-
-void Model::initBufferObjects(int mode, eModelType modelType)
+void Model::init_buffer_objects(int mode, eModelType modelType)
 {
     std::vector<GLfloat> vertices;
     std::vector<GLuint> indices;
@@ -83,7 +74,7 @@ void Model::initBufferObjects(int mode, eModelType modelType)
         break;
     default: break;
     }
-    this->nIndices = indices.size();
+    this->number_of_indices = indices.size();
 
     // gen buffers and vertex arrays
     glGenVertexArrays(1, &this->vao);
@@ -99,13 +90,13 @@ void Model::initBufferObjects(int mode, eModelType modelType)
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertices.size(), vertices.data(), mode);
     
     glActiveTexture(GL_TEXTURE0);
-    this->texture = this->loadTexture(this->name.compare("head") == 0 ? "textures/1.bmp" : "textures/6.bmp");
+    this->texture = this->load_texture(this->name.compare("head") == 0 ? "textures/1.bmp" : "textures/6.bmp");
     
     glActiveTexture(GL_TEXTURE1);
-    this->texture_sm = this->loadTexture(this->name.compare("head") == 0 ? "textures/1_sm.bmp" : "textures/6_sm.bmp");
+    this->texture_sm = this->load_texture(this->name.compare("head") == 0 ? "textures/1_sm.bmp" : "textures/6_sm.bmp");
 
     glActiveTexture(GL_TEXTURE2);
-    this->texture_nl = this->loadTexture(this->name.compare("head") == 0 ? "textures/1_normal.bmp" : "textures/6_normal.bmp");
+    this->texture_nl = this->load_texture(this->name.compare("head") == 0 ? "textures/1_normal.bmp" : "textures/6_normal.bmp");
 
     // set the vertex attribute pointers
     
@@ -121,7 +112,7 @@ void Model::initBufferObjects(int mode, eModelType modelType)
 }
 
  
-unsigned int Model::loadTexture(char const * path)
+unsigned int Model::load_texture(char const * path)
 {
     unsigned int textureID;
     glGenTextures(1, &textureID);

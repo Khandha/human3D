@@ -30,23 +30,20 @@ void Renderer::loop(void)
         // use custom shader
         this->shader.use();
 
-        // update controller
-        this->env->getController()->update();
+        // update keyboard
+        this->env->getKeyboard()->update();
 
         // handle animator keys
-        this->env->getAnimator()->handle_keys(this->env->getController()->getKeys());
+        this->env->getAnimator()->handle_keys(this->env->getKeyboard()->getKeys());
 
         // update animator
         this->env->getAnimator()->update();
 
         // handle camera keys
-        this->camera.handleKeys(this->env->getController()->getKeys(),
-                                this->env->getCharacter()->getParentBone()->getModel()->getPosition());
+        this->camera.handleKeys(this->env->getKeyboard()->getKeys(),
+                                this->env->getCharacter()->get_parent_bone()->get_model()->get_position());
 
-        // TODO: implement camera mouse movement instead of keyboard (maybe? investigate)
-        //this->camera.handleMouse();
-
-        // TODO: what does this do?
+        // update shader uniforms
         this->updateShaderUniforms();
 
         // render scene
@@ -56,14 +53,14 @@ void Renderer::loop(void)
 
 void Renderer::updateShaderUniforms(void)
 {
-    this->shader.setMat4UniformValue("view", this->camera.getViewMatrix());
-    this->shader.setMat4UniformValue("projection", this->camera.getProjectionMatrix());
+    this->shader.set_mat4_uniform("view", this->camera.getViewMatrix());
+    this->shader.set_mat4_uniform("projection", this->camera.getProjectionMatrix());
     
-    this->shader.setVec4UniformValue("lightPosA", glm::vec4(0,-2,9,1));
-    this->shader.setVec4UniformValue("lightColorA", glm::vec4(1,1, 1,1));
+    this->shader.set_vec4_uniform("lightPosA", glm::vec4(0,-2,9,1));
+    this->shader.set_vec4_uniform("lightColorA", glm::vec4(1,1, 1,1));
     
-    this->shader.setVec4UniformValue("lightPosB", glm::vec4(0,2,0,1));
-    this->shader.setVec4UniformValue("lightColorB", glm::vec4(0.996, 0.988, 0.784, 1));
+    this->shader.set_vec4_uniform("lightPosB", glm::vec4(0,2,0,1));
+    this->shader.set_vec4_uniform("lightColorB", glm::vec4(0.996, 0.988, 0.784, 1));
     
-    this->shader.setVec4UniformValue("viewPos", glm::vec4(this->camera.getPosition(), 1));
+    this->shader.set_vec4_uniform("viewPos", glm::vec4(this->camera.getPosition(), 1));
 }
