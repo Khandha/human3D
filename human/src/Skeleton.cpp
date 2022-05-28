@@ -1,24 +1,22 @@
 #include "Skeleton.hpp"
 
 Skeleton::Skeleton(std::unordered_map<std::string, Bone*> bones,
-                   std::string parentBoneId) : parentBoneId(std::move(parentBoneId)), bones(std::move(bones))
+                   std::string parentBoneId) : parent_bone_id(std::move(parentBoneId)), bones(std::move(bones))
 {
-    this->parentBone = this->bones[this->parentBoneId];
+    this->parent_bone = this->bones[this->parent_bone_id];
 }
 
 Skeleton::~Skeleton(void)
 {
-    delete this->parentBone;
+    delete this->parent_bone;
 }
 
 void Skeleton::update(void) const
 {
-    this->parentBone->update(mat4(1.0f), this->shader);
+    this->parent_bone->update(mat4(1.0f), this->shader);
 }
 
 Bone* Skeleton::operator[](const std::string& id)
 {
-    if (this->bones.find(id) == this->bones.end())
-        throw Exception::SkeletonMapAccessError(id);
-    return (this->bones[id]);
+    return this->bones[id];
 }

@@ -4,7 +4,7 @@
 #include <chrono>
 
 #include "Matrix.hpp"
-#include "Controller.hpp"
+#include "Keyboard.hpp"
 
 using millisecs = std::chrono::duration<double, std::milli>;
 using tTimePoint = std::chrono::steady_clock::time_point;
@@ -14,21 +14,14 @@ class Camera
 public:
     Camera(float fov, float aspect);
     ~Camera(void);
-
-    vec3 interpolate(const vec3& v0, const vec3& v1, tTimePoint last, size_t duration = 250);
-    static millisecs getElapsedMilliseconds(tTimePoint last);
-
-    void handleKeys(const std::array<tKey, N_KEY>& keys, const vec3& lockPos);
-    /* Getters */
+    void handleKeys(const std::array<key, GLFW_KEY_LAST + 1>& keys, const vec3& lockPos);
+    static mat4 createPerspectiveProjectionMatrix(float fov, float aspect, float near = 0.1f, float far = 100.0f);
+    
+    // GETTERS
     const mat4& getProjectionMatrix(void) const { return (projectionMatrix); }
     const mat4& getViewMatrix(void) const { return (viewMatrix); }
-    float getFov(void) const { return (fov); }
-    float getAspect(void) const { return (aspect); }
     const vec3& getPosition(void) const { return (position); }
-    const vec3& getTarget(void) const { return (target); }
-
-    static mat4 createPerspectiveProjectionMatrix(float fov, float aspect, float near = 0.1, float far = 100.0);
-
+    
 private:
     mat4 projectionMatrix;
     mat4 viewMatrix;
