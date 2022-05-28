@@ -9,7 +9,7 @@ Model::Model(const vec3& position, const vec3& orientation, const vec3& scale, c
     position(position), orientation(orientation), scale(scale), joint(joint), name(name)
 {
     this->number_of_indices = 0;
-    this->init_buffer_objects(GL_STATIC_DRAW, eModelType::cube);
+    this->init_buffer_objects();
     this->pushMatrix(mat4(1.0f));
     this->transform_ = mat4(1.0f);
     this->world_position = vec3(0, 0, 0);
@@ -56,36 +56,28 @@ void Model::render(Shader* shader)
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, this->texture_sm);
 
-    glActiveTexture(GL_TEXTURE1);
+    glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, this->texture_nl);
     
     glBindVertexArray(this->vao);
     glDrawArrays(GL_TRIANGLES, 0, this->number_of_indices);
+    
+    glBindVertexArray(0);
 }
 
-void Model::init_buffer_objects(int mode, eModelType modelType)
+void Model::init_buffer_objects(int mode)
 {
     std::vector<GLfloat> vertices;
     std::vector<GLuint> indices;
-
-    switch (modelType)
-    {
-    case eModelType::cube: create_cube(vertices, indices);
-        break;
-    default: break;
-    }
+    cube_creation(vertices, indices);
     this->number_of_indices = indices.size();
 
-    // gen buffers and vertex arrays
     glGenVertexArrays(1, &this->vao);
     glGenBuffers(1, &this->vbo);
     glGenBuffers(1, &this->ebo);
 
-    // bind vertex array object, basically this is an object to allow us to not redo all of this process each time
-    // we want to draw an object to screen, all the states we set are stored in the VAO
     glBindVertexArray(this->vao);
 
-    // copy our vertices array in a buffer for OpenGL to use
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertices.size(), vertices.data(), mode);
     

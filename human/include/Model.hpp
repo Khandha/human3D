@@ -64,6 +64,6 @@ private:
     GLuint texture_sm;
     GLuint texture_nl;
 
-    void init_buffer_objects(int mode = GL_STATIC_DRAW, eModelType modelType = eModelType::cube);
+    void init_buffer_objects(int mode = GL_STATIC_DRAW);
     unsigned load_texture(char const* path);
 };

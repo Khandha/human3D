@@ -7,9 +7,10 @@ uniform vec4 lightPosB;
 uniform vec4 lightColorA;
 uniform vec4 lightColorB;
 uniform vec4 viewPos;
-uniform sampler2D texture1;
-uniform sampler2D texture2;
-uniform sampler2D texture_nl;
+
+uniform sampler2D normal_map;
+uniform sampler2D specular_map;
+uniform sampler2D diffuse_map;
 
 in vec3 Normal;
 in vec3 FragPos;
@@ -22,7 +23,7 @@ vec3 calculateLight(vec3 normal, vec3 lightPos, vec3 viewPos, vec3 lightColor, f
     
     // calculate diffusion impact
     float diff = max(dot(normal, lightDir), 0.0);
-    vec3 diffuse = diff * lightColor  * vec3(texture(texture1, TexCoords));
+    vec3 diffuse = diff * lightColor  * texture(diffuse_map, TexCoords).rgb;
     
     // normalize to light position
     vec3 viewDir = normalize(viewPos - FragPos);
@@ -34,7 +35,7 @@ vec3 calculateLight(vec3 normal, vec3 lightPos, vec3 viewPos, vec3 lightColor, f
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), spec_impact);
     
     // calculate specular color
-    vec3 specular = specularStrength * spec * vec3(texture(texture2, TexCoords));
+    vec3 specular = specularStrength * spec * texture(specular_map, TexCoords).rgb;
     
     return (ambient + diffuse + specular);
 }
@@ -49,11 +50,11 @@ void main() {
     
     // ambient light
     float ambientStrength = 0.1;
-    vec3 ambient = ambientStrength * lca * lcb * texture(texture1, TexCoords).rgb;
+    vec3 ambient = ambientStrength * lca * lcb * texture(diffuse_map, TexCoords).rgb;
     float specularStrength = 0.4;
   
     // normalize normal vertices 
-    vec3 norm = normalize(Normal * texture(texture_nl, TexCoords).rgb);
+    vec3 norm = normalize(Normal * texture(normal_map, TexCoords).rgb);
 
     // calculate result and return for vertice
     
@@ -61,6 +62,4 @@ void main() {
         + 0.6 * calculateLight(norm, lpb, vp, lcb, specularStrength, ambient, 8);
     
     FragColor = vec4(result, 1.0);
-    
-//    FragColor = texture(texture1, TexCoords);
 }

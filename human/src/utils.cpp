@@ -1,6 +1,6 @@
 #include "utils.hpp"
 
-void create_cube(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices)
+void cube_creation(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices)
 {
     vertices = {
         // positions          // normals           // texture coords
@@ -68,9 +68,3 @@ vec4 hex2_vec(int64_t hex)
     });
 }
 
-vec2 mouse_pos_to_clip_space(const vec2d& pos, int winWidth, int winHeight)
-{
-    vec2 mouse = vec2({static_cast<float>(pos[0]) / winWidth, static_cast<float>(pos[1]) / winHeight}) * 2.0f - 1.0f;
-    mouse[1] = -mouse[1];
-    return mouse;
-}
