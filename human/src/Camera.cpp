@@ -1,19 +1,19 @@
 #include "Camera.hpp"
 #include "glm/gtx/string_cast.hpp"
 
-Camera::Camera(float fov, float aspect) : fov(fov), aspect(aspect)
+Camera::Camera(float fov, float aspect) : fov_(fov), aspect_(aspect)
 {
-    this->projectionMatrix = createPerspectiveProjectionMatrix(fov, aspect);
-    this->position = vec3({0, 0, 8}); // tutaj pozycja kamery 
-    this->target = vec3({0, 0, 0});
-    this->viewMatrix = lookAt(this->position, this->target, vec3(0, 1, 0));
+    this->projection_matrix_ = create_perspective_projection_matrix(fov, aspect);
+    this->position_ = vec3({0, 0, 8}); // tutaj pozycja kamery 
+    this->target_ = vec3({0, 0, 0});
+    this->view_matrix_ = lookAt(this->position_, this->target_, vec3(0, 1, 0));
 }
 
 Camera::~Camera(void)
 {
 }
 
-mat4 Camera::createPerspectiveProjectionMatrix(float fov, float aspect, float near, float far)
+mat4 Camera::create_perspective_projection_matrix(float fov, float aspect, float near, float far)
 {
     const float yScale = 1 / std::tan(glm::radians(fov * 0.5));
     const float xScale = yScale / aspect;
@@ -25,20 +25,20 @@ mat4 Camera::createPerspectiveProjectionMatrix(float fov, float aspect, float ne
     );
 }
 
-void Camera::handleKeys(const std::array<key, GLFW_KEY_LAST + 1>& keys, const vec3& lockPos)
+void Camera::handle_keys(const std::array<key, GLFW_KEY_LAST + 1>& keys, const vec3& lockPos)
 {
     float static rotCamera = 0.0f;
     if (keys[GLFW_KEY_A].value)
     {
         rotCamera += 0.002f;
-        glm::vec3 rot(sin(rotCamera) * 8 - this->position.x,  0, cos(rotCamera) * 8 - this->position.z);
-        this->position = vec3(this->position + rot);
+        glm::vec3 rot(sin(rotCamera) * 8 - this->position_.x,  0, cos(rotCamera) * 8 - this->position_.z);
+        this->position_ = vec3(this->position_ + rot);
     } else if (keys[GLFW_KEY_D].value)
     {
         rotCamera -= 0.002f;
-        glm::vec3 rot(sin(rotCamera) * 8 - this->position.x,  0, cos(rotCamera) * 8 - this->position.z);
-        this->position = vec3(this->position + rot);
+        glm::vec3 rot(sin(rotCamera) * 8 - this->position_.x,  0, cos(rotCamera) * 8 - this->position_.z);
+        this->position_ = vec3(this->position_ + rot);
     }
     
-    this->viewMatrix = lookAt(this->position, this->target, vec3(0, 1, 0));
+    this->view_matrix_ = lookAt(this->position_, this->target_, vec3(0, 1, 0));
 }

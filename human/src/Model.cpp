@@ -50,14 +50,21 @@ void Model::render(Shader* shader)
     shader->set_vec4_uniform("customColor", color);
     shader->set_mat4_uniform("model", this->stack.top());
     
+    glUniform1i(shader->get_uniform_location("diffuse_map"), 0);   
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, this->texture);
 
+    glUniform1i(shader->get_uniform_location("specular_map"), 1); 
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, this->texture_sm);
 
+    glUniform1i(shader->get_uniform_location("normal_map"), 2); 
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, this->texture_nl);
+
+    glUniform1i(shader->get_uniform_location("qrcode"), 3); 
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, this->qrcode);
     
     glBindVertexArray(this->vao);
     glDrawArrays(GL_TRIANGLES, 0, this->number_of_indices);
@@ -85,11 +92,13 @@ void Model::init_buffer_objects(int mode)
     this->texture = this->load_texture(this->name.compare("head") == 0 ? "textures/1.bmp" : "textures/6.bmp");
     
     glActiveTexture(GL_TEXTURE1);
-    this->texture_sm = this->load_texture(this->name.compare("head") == 0 ? "textures/1_sm.bmp" : "textures/6_sm.bmp");
+    this->texture_sm = this->load_texture(this->name.compare("head") == 0 ? "textures/1_sm.png" : "textures/6_sm.png");
 
     glActiveTexture(GL_TEXTURE2);
-    this->texture_nl = this->load_texture(this->name.compare("head") == 0 ? "textures/1_normal.bmp" : "textures/6_normal.bmp");
+    this->texture_nl = this->load_texture(this->name.compare("head") == 0 ? "textures/1_normal.png" : "textures/6_normal.bmp");
 
+    glActiveTexture(GL_TEXTURE3);
+    this->qrcode = this->load_texture(this->name.compare("torso") == 0 ? "textures/qrcode.png" : "textures/transp.png");
     // set the vertex attribute pointers
     
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
@@ -103,7 +112,7 @@ void Model::init_buffer_objects(int mode)
     glBindVertexArray(0);
 }
 
- 
+
 unsigned int Model::load_texture(char const * path)
 {
     unsigned int textureID;
