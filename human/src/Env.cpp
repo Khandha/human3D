@@ -4,16 +4,16 @@ Env::Env(void) : character()
 {
     try
     {
-        this->initGlfwEnvironment("4.0");
-        this->initGlfwWindow(1280, 960);
+        this->init_glfw_environment("4.0");
+        this->init_glfw_window(1280, 960);
         if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
             throw std::runtime_error("glad initialization failed");
         
         this->keyboard = new Keyboard(this->window.ptr);
-        this->character = new Skeleton(this->createCharacterSkeleton(), "torso");
+        this->character = new Skeleton(this->create_character_skeleton(), "torso");
         this->animator = new Animating(this->character, {
                                           {new anim_frames({{}}), 200},
-                                          {this->createWalkingAnimation(), 1000},
+                                          {this->create_walking_animation(), 1000},
                                       });
     }
     catch (const std::exception& err)
@@ -31,7 +31,7 @@ Env::~Env(void)
     glfwTerminate();
 }
 
-void Env::initGlfwEnvironment(const std::string& glVersion) const
+void Env::init_glfw_environment(const std::string& glVersion) const
 {
     if (!glfwInit())
         throw std::runtime_error("glfw initialization failed");
@@ -43,7 +43,7 @@ void Env::initGlfwEnvironment(const std::string& glVersion) const
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 }
 
-void Env::initGlfwWindow(size_t width, size_t height)
+void Env::init_glfw_window(size_t width, size_t height)
 {
     glfwWindowHint(GLFW_SAMPLES, 8);
     if (!(this->window.ptr = glfwCreateWindow(width, height, "Cyborg 3D", nullptr, nullptr)))
@@ -54,40 +54,40 @@ void Env::initGlfwWindow(size_t width, size_t height)
     this->window.height = height;
 }
 
-anim_frames* Env::createWalkingAnimation(void)
+anim_frames* Env::create_walking_animation(void)
 {
     const auto walkingAnimation = new anim_frames({
         {
             // idle
             new std::vector<bone_transform>({
                 {
-                    {"upper_arm_left", vec3(0, 0, 0), vec3(-0.7f, 0, 0), vec3(0, 0, 0)},
-                    {"lower_arm_left", vec3(0, 0, 0), vec3(0.7f, 0, 0), vec3(0, 0, 0)},
+                    {"upper_arm_left", vec3(0, 0, 0), vec3(-0.75f, 0, 0), vec3(0, 0, 0)},
+                    {"lower_arm_left", vec3(0, 0, 0), vec3(0.75f, 0, 0), vec3(0, 0, 0)},
                     {"upper_arm_right", vec3(0, 0, 0), vec3(0.7f, 0.9f, -0.1f), vec3(0, 0, 0)},
                     {"lower_arm_right", vec3(0, 0, 0), vec3(0.5, 0, 0), vec3(0, 0, 0)},
-                    {"torso", vec3(0, 0, 0), vec3(-0.2f, 0.1f, 0.025f), vec3(0, 0, 0)},
-                    {"pelvis", vec3(0, 0, 0), vec3(0.2f, 0, -0.025f), vec3(0, 0, 0)},
+                    {"torso", vec3(0, 0, 0), vec3(-0.22f, 0.1f, 0.025f), vec3(0, 0, 0)},
+                    {"pelvis", vec3(0, 0, 0), vec3(0.22f, 0, -0.025f), vec3(0, 0, 0)},
                     {"head", vec3(0, 0, 0), vec3(0, 0, -0.05f), vec3(0, 0, 0)},
-                    {"thigh_left", vec3(0, 0, 0), vec3(0.7f, 0, 0), vec3(0, 0, 0)},
+                    {"thigh_left", vec3(0, 0, 0), vec3(0.75f, 0, 0), vec3(0, 0, 0)},
                     {"lower_leg_left", vec3(0, 0, 0), vec3(-0.1f, 0, 0), vec3(0, 0, 0)},
-                    {"thigh_right", vec3(0, 0, 0), vec3(-0.4f, 0, 0), vec3(0, 0, 0)},
-                    {"lower_leg_right", vec3(0, 0, 0), vec3(-0.2f, 0, 0), vec3(0, 0, 0)},
+                    {"thigh_right", vec3(0, 0, 0), vec3(-0.45f, 0, 0), vec3(0, 0, 0)},
+                    {"lower_leg_right", vec3(0, 0, 0), vec3(-0.25f, 0, 0), vec3(0, 0, 0)},
                 }
             }),
             // down
             new std::vector<bone_transform>({
                 {
-                    {"upper_arm_left", vec3(0, 0, 0), vec3(-0.8f, 0, 0), vec3(0, 0, 0)},
-                    {"lower_arm_left", vec3(0, 0, 0), vec3(0.6f, 0, 0), vec3(0, 0, 0)},
-                    {"upper_arm_right", vec3(0, 0, 0), vec3(0.8f, 0.5f, -0.05f), vec3(0, 0, 0)},
-                    {"lower_arm_right", vec3(0, 0, 0), vec3(0.3f, 0, 0), vec3(0, 0, 0)},
-                    {"torso", vec3(0, 0, 0), vec3(-0.2f, 0.2f, 0), vec3(0, 0, 0)},
-                    {"pelvis", vec3(0, 0, 0), vec3(0.2f, 0, 0), vec3(0, 0, 0)},
+                    {"upper_arm_left", vec3(0, 0, 0), vec3(-0.85f, 0, 0), vec3(0, 0, 0)},
+                    {"lower_arm_left", vec3(0, 0, 0), vec3(0.62f, 0, 0), vec3(0, 0, 0)},
+                    {"upper_arm_right", vec3(0, 0, 0), vec3(0.81f, 0.5f, -0.05f), vec3(0, 0, 0)},
+                    {"lower_arm_right", vec3(0, 0, 0), vec3(0.32f, 0, 0), vec3(0, 0, 0)},
+                    {"torso", vec3(0, 0, 0), vec3(-0.24f, 0.24f, 0), vec3(0, 0, 0)},
+                    {"pelvis", vec3(0, 0, 0), vec3(0.24f, 0, 0), vec3(0, 0, 0)},
                     {"head", vec3(0, 0, 0), vec3(0, 0, 0), vec3(0, 0, 0)},
-                    {"thigh_left", vec3(0, 0, 0), vec3(0.8f, 0, 0), vec3(0, 0, 0)},
-                    {"lower_leg_left", vec3(0, 0, 0), vec3(-0.8f, 0, 0), vec3(0, 0, 0)},
-                    {"thigh_right", vec3(0, 0, 0), vec3(-0.6f, 0, 0), vec3(0, 0, 0)},
-                    {"lower_leg_right", vec3(0, 0, 0), vec3(-0.2f, 0, 0), vec3(0, 0, 0)},
+                    {"thigh_left", vec3(0, 0, 0), vec3(0.82f, 0, 0), vec3(0, 0, 0)},
+                    {"lower_leg_left", vec3(0, 0, 0), vec3(-0.82f, 0, 0), vec3(0, 0, 0)},
+                    {"thigh_right", vec3(0, 0, 0), vec3(-0.62f, 0, 0), vec3(0, 0, 0)},
+                    {"lower_leg_right", vec3(0, 0, 0), vec3(-0.21f, 0, 0), vec3(0, 0, 0)},
                 }
             }),
             // avg
@@ -109,17 +109,17 @@ anim_frames* Env::createWalkingAnimation(void)
             // going up
             new std::vector<bone_transform>({
                 {
-                    {"upper_arm_left", vec3(0, 0, 0), vec3(0.4f, 0, 0), vec3(0, 0, 0)},
-                    {"lower_arm_left", vec3(0, 0, 0), vec3(0.2f, 0, 0), vec3(0, 0, 0)},
-                    {"upper_arm_right", vec3(0, 0, 0), vec3(-0.2f, 0, 0), vec3(0, 0, 0)},
-                    {"lower_arm_right", vec3(0, 0, 0), vec3(0.3f, 0, 0), vec3(0, 0, 0)},
+                    {"upper_arm_left", vec3(0, 0, 0), vec3(0.42f, 0, 0), vec3(0, 0, 0)},
+                    {"lower_arm_left", vec3(0, 0, 0), vec3(0.21f, 0, 0), vec3(0, 0, 0)},
+                    {"upper_arm_right", vec3(0, 0, 0), vec3(-0.22f, 0, 0), vec3(0, 0, 0)},
+                    {"lower_arm_right", vec3(0, 0, 0), vec3(0.32f, 0, 0), vec3(0, 0, 0)},
                     {"torso", vec3(0, 0, 0), vec3(-0.2f, 0, -0.07f), vec3(0, 0, 0)},
-                    {"pelvis", vec3(0, 0, 0), vec3(0.2f, 0, 0.13f), vec3(0, 0, 0)},
+                    {"pelvis", vec3(0, 0, 0), vec3(0.21f, 0, 0.14f), vec3(0, 0, 0)},
                     {"head", vec3(0, 0, 0), vec3(0, 0, 0.13f), vec3(0, 0, 0)},
-                    {"thigh_left", vec3(0, 0, 0), vec3(-0.2f, 0, 0), vec3(0, 0, 0)},
-                    {"lower_leg_left", vec3(0, 0, 0), vec3(-0.1f, 0, 0), vec3(0, 0, 0)},
-                    {"thigh_right", vec3(0, 0, 0), vec3(0.9f, 0, 0), vec3(0, 0, 0)},
-                    {"lower_leg_right", vec3(0, 0, 0), vec3(-1.2f, 0, 0), vec3(0, 0, 0)},
+                    {"thigh_left", vec3(0, 0, 0), vec3(-0.21f, 0, 0), vec3(0, 0, 0)},
+                    {"lower_leg_left", vec3(0, 0, 0), vec3(-0.125f, 0, 0), vec3(0, 0, 0)},
+                    {"thigh_right", vec3(0, 0, 0), vec3(0.92f, 0, 0), vec3(0, 0, 0)},
+                    {"lower_leg_right", vec3(0, 0, 0), vec3(-1.25f, 0, 0), vec3(0, 0, 0)},
                 }
             }),
             // idle
@@ -192,7 +192,7 @@ anim_frames* Env::createWalkingAnimation(void)
     return (walkingAnimation);
 }
 
-std::unordered_map<std::string, Bone*> Env::createCharacterSkeleton(void)
+std::unordered_map<std::string, Bone*> Env::create_character_skeleton(void)
 {
     std::unordered_map<std::string, Bone*> bones;
     bones["head"] = new Bone(

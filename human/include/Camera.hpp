@@ -14,19 +14,19 @@ class Camera
 public:
     Camera(float fov, float aspect);
     ~Camera(void);
-    void handleKeys(const std::array<key, GLFW_KEY_LAST + 1>& keys, const vec3& lockPos);
-    static mat4 createPerspectiveProjectionMatrix(float fov, float aspect, float near = 0.1f, float far = 100.0f);
+    void handle_keys(const std::array<key, GLFW_KEY_LAST + 1>& keys, const vec3& lockPos);
+    static mat4 create_perspective_projection_matrix(float fov, float aspect, float near = 0.1f, float far = 100.0f);
     
     // GETTERS
-    const mat4& getProjectionMatrix(void) const { return (projectionMatrix); }
-    const mat4& getViewMatrix(void) const { return (viewMatrix); }
-    const vec3& getPosition(void) const { return (position); }
+    const mat4& get_projection_matrix(void) const { return (projection_matrix_); }
+    const mat4& get_view_matrix(void) const { return (view_matrix_); }
+    const vec3& get_position(void) const { return (position_); }
     
 private:
-    mat4 projectionMatrix;
-    mat4 viewMatrix;
-    float fov;
-    float aspect;
-    vec3 position;
-    vec3 target;
+    mat4 projection_matrix_;
+    mat4 view_matrix_;
+    float fov_;
+    float aspect_;
+    vec3 position_;
+    vec3 target_;
 };

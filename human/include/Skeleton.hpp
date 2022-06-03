@@ -19,7 +19,7 @@ public:
     void update(void) const;
 
     // SETTERS
-    void setShader(Shader* s) { shader = s; }
+    void set_shader(Shader* s) { shader = s; }
     
     // GETTERS
     const Bone* get_parent_bone(void) const { return (parent_bone); }

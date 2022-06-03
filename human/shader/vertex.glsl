@@ -20,5 +20,5 @@ void main()
     
     // pass position of the fragment and normals to the fragment shader
     FragPos = vec3(model * vec4(aPos, 1.0));
-    Normal = Normal = mat3(transpose(inverse(model))) * aNormal;
+    Normal = mat3(transpose(inverse(model))) * aNormal;
 } 
